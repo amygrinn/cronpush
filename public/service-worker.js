@@ -5,7 +5,7 @@ self.addEventListener('push', event => {
   )
 })
 
-self.addEventListener('notificationClick', event => {
+self.addEventListener('notificationclick', event => {
   event.notification.close()
 
   event.waitUntil(
@@ -13,18 +13,8 @@ self.addEventListener('notificationClick', event => {
       type: 'window',
       includeUncontrolled: true
     }).then((windowClients) => {
-      let matchingClient = null
-    
-      for (let i = 0; i < windowClients.length; i++) {
-        const windowClient = windowClients[i]
-        if (windowClient.url === urlToOpen) {
-          matchingClient = windowClient
-          break
-        }
-      }
-    
-      if (matchingClient) {
-        return matchingClient.focus()
+      if (windowClients.length > 0) {
+        return windowClients[0].focus()
       } else {
         return clients.openWindow('/')
       }
