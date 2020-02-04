@@ -51,7 +51,11 @@ export default async (now: Date) => {
       badge: schedule.icon,
     }
 
-    await webPush.sendNotification(pushSubscriptionObject, JSON.stringify(payload))
-    notification.update({ sent: true })
+    try {
+      await webPush.sendNotification(pushSubscriptionObject, JSON.stringify(payload))
+      notification.update({ sent: true })
+    } catch (err) {
+      pushSubscription.destroy()
+    }
   }))
 }
