@@ -5,8 +5,8 @@ import { register } from 'register-service-worker'
 register(`${process.env.BASE_URL}service-worker.js`, {
   ready() {
     console.log(
-      'App is being served from cache by a service worker.\n' +
-        'For more details, visit https://goo.gl/AFskqB'
+      'Notifications are being sent from a service worker.\n' +
+        'For more details, visit https://developers.google.com/web/ilt/pwa/introduction-to-service-worker'
     )
   },
   registered() {
@@ -22,7 +22,7 @@ register(`${process.env.BASE_URL}service-worker.js`, {
     console.log('New content is available; please refresh.')
   },
   offline() {
-    console.log('No internet connection found. App is running in offline mode.')
+    // console.log('No internet connection found. App is running in offline mode.')
   },
   error(error) {
     console.error('Error during service worker registration:', error)
