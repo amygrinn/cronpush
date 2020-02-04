@@ -51,17 +51,21 @@
       <img :src="newSchedule.icon" class="icon" v-b-modal.icons-modal />
     </b-form-group>
     <b-form-group label="Title">
-      <b-form-input v-model="newSchedule.title" />
+      <b-form-input required v-model="newSchedule.title" />
     </b-form-group>
     <b-form-group label="Message">
-      <b-form-input v-model="newSchedule.message" />
+      <b-form-input required v-model="newSchedule.message" />
     </b-form-group>
     <b-form-group
-      label="Cron Expression"
       :state="validCronExpression"
       :invalid-feedback="cronExpressionError"
     >
-      <b-button class="mb-1" v-b-modal.recipes-modal>Recipes</b-button>
+      <template v-slot:label>
+        <div class="d-flex justify-content-between align-items-center">
+          <p class="mb-0">Cron Expression</p>
+          <b-button class="mb-1" v-b-modal.recipes-modal>Recipes</b-button>
+        </div>
+      </template>
       <b-form-input
         :state="validCronExpression"
         v-model="newSchedule.cronExpression"
