@@ -1,67 +1,73 @@
 <template>
-  <div id="app">
-    <fab
-      v-show="!!pushSubscription"
-      v-b-modal.create-schedule-modal
-      position="bottom-right"
-      icon-size="small"
-    />
-
-    <b-modal id="login-modal" title="Login/Register" hide-footer>
-      <login-modal @close="$bvModal.hide('login-modal')" />
-    </b-modal>
-
-    <b-modal
-      id="logout-modal"
-      title="Log Out"
-      @ok="$store.dispatch('auth/logout')"
-      ok-title="Log Out"
-    >
-      <p>Are you sure you want to log out?</p>
-    </b-modal>
-
-    <b-modal id="create-schedule-modal" title="Create Schedule" hide-footer>
-      <schedule-modal create @close="$bvModal.hide('create-schedule-modal')" />
-    </b-modal>
-
-    <b-modal id="edit-schedule-modal" title="Edit Schedule" hide-footer>
-      <schedule-modal
-        edit
-        :schedule="selectedSchedule"
-        @close="$bvModal.hide('edit-schedule-modal')"
-      />
-    </b-modal>
-
-    <b-navbar>
-      <b-navbar-brand href="/">Cron Push</b-navbar-brand>
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item key="login" v-if="!user" v-b-modal.login-modal
-          >Login</b-nav-item
-        >
-        <b-nav-item key="logout" v-else v-b-modal.logout-modal
-          >Log Out</b-nav-item
-        >
-      </b-navbar-nav>
-    </b-navbar>
-
-    <div class="d-flex flex-column align-items-center">
-      <delayed-checkbox
-        class="mb-3"
-        message="Push notifications"
-        :checked="!!pushSubscription"
-        :loading="updatingPushSubscription"
-        @check="updatePushSubscription"
+  <div class="d-flex justify-content-center" style="height: 100vh;">
+    <div style="max-width: 640px;" class="position-relative w-100">
+      <fab
+        v-show="!!pushSubscription"
+        v-b-modal.create-schedule-modal
+        position="bottom-right"
+        icon-size="small"
+        class="position-absolute"
       />
 
-      <schedule
-        v-for="schedule in schedules"
-        :key="schedule.id"
-        :schedule="schedule"
-        @edit="
-          selectedSchedule = schedule
-          $bvModal.show('edit-schedule-modal')
-        "
-      />
+      <b-modal id="login-modal" title="Login/Register" hide-footer>
+        <login-modal @close="$bvModal.hide('login-modal')" />
+      </b-modal>
+
+      <b-modal
+        id="logout-modal"
+        title="Log Out"
+        @ok="$store.dispatch('auth/logout')"
+        ok-title="Log Out"
+      >
+        <p>Are you sure you want to log out?</p>
+      </b-modal>
+
+      <b-modal id="create-schedule-modal" title="Create Schedule" hide-footer>
+        <schedule-modal
+          create
+          @close="$bvModal.hide('create-schedule-modal')"
+        />
+      </b-modal>
+
+      <b-modal id="edit-schedule-modal" title="Edit Schedule" hide-footer>
+        <schedule-modal
+          edit
+          :schedule="selectedSchedule"
+          @close="$bvModal.hide('edit-schedule-modal')"
+        />
+      </b-modal>
+
+      <b-navbar>
+        <b-navbar-brand href="/">Cron Push</b-navbar-brand>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item key="login" v-if="!user" v-b-modal.login-modal
+            >Login</b-nav-item
+          >
+          <b-nav-item key="logout" v-else v-b-modal.logout-modal
+            >Log Out</b-nav-item
+          >
+        </b-navbar-nav>
+      </b-navbar>
+
+      <div class="d-flex flex-column align-items-center">
+        <delayed-checkbox
+          class="mb-3"
+          message="Push notifications"
+          :checked="!!pushSubscription"
+          :loading="updatingPushSubscription"
+          @check="updatePushSubscription"
+        />
+
+        <schedule
+          v-for="schedule in schedules"
+          :key="schedule.id"
+          :schedule="schedule"
+          @edit="
+            selectedSchedule = schedule
+            $bvModal.show('edit-schedule-modal')
+          "
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -71,6 +77,10 @@
 
 .fab-main {
   background-color: $primary !important;
+}
+
+:focus {
+  outline: none;
 }
 </style>
 
