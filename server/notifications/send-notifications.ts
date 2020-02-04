@@ -46,8 +46,9 @@ export default async (now: Date) => {
 
     const payload = {
       title: schedule.title,
-      message: schedule.message,
+      body: schedule.message,
       icon: schedule.icon,
+      badge: schedule.icon,
     }
 
     await webPush.sendNotification(pushSubscriptionObject, JSON.stringify(payload))
