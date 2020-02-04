@@ -2,6 +2,8 @@
 
 cd cron-push
 git pull
-npm install --production=false
-npm run build
-npm run serve
+yarn
+yarn test-server
+yarn build
+yarn serve
+
