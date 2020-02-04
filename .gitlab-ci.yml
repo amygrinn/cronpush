@@ -1,0 +1,39 @@
+stages:
+  - test
+  - deploy
+
+variables:
+  YARN_CACHE_FOLDER: "$CI_PROJECT_DIR/.yarn"
+
+cache:
+  key: ${CI_COMMIT_REF_NAME}
+  paths:
+    - .yarn
+    - node_modules/
+
+test:
+  stage: test
+  image: node:12
+  before_script:
+    - yarn
+  script:
+    - yarn lint --no-fix --max-warnings 0
+
+deploy:
+  stage: deploy
+  image: alpine
+  only:
+    - master
+  before_script:
+    # SSH Setup
+    - apk add --update --no-cache openssh
+
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh root@cronpush.tygr.info 'bash -s' < ./deploy.sh
