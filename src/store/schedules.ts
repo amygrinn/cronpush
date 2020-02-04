@@ -69,8 +69,10 @@ const schedulesModule: Module<SchedulesModule, any> = {
     async delete({ commit, getters }, id: string) {
       await http.delete('/schedules/' + id)
       const schedules: Schedule[] = getters.schedules
+
       const index = schedules.findIndex(s => s.id === id)
-      commit('setSchedules', schedules.splice(index, 1))
+      schedules.splice(index, 1)
+      commit('setSchedules', schedules)
     },
   },
 }
