@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center" style="height: 100vh;">
+  <div class="d-flex justify-content-center" style="height: calc(var(--vh, 1vh) * 100)">
     <div style="max-width: 640px;" class="position-relative w-100">
       <fab
         v-show="!!pushSubscription"
