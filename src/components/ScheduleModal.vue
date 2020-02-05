@@ -54,7 +54,7 @@
       <b-form-input required v-model="newSchedule.title" />
     </b-form-group>
     <b-form-group label="Message">
-      <b-form-input required v-model="newSchedule.message" />
+      <b-form-input v-model="newSchedule.message" />
     </b-form-group>
     <b-form-group
       :state="validCronExpression"

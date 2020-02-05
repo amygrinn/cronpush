@@ -8,7 +8,6 @@ const createSchedule: RequestHandler = async (req, res) => {
     || !req.body.push.endpoint
     || !req.body.schedule
     || !req.body.schedule.cronExpression
-    || !req.body.schedule.message
     || req.body.schedule.enabled === undefined
   ) {
     return res.status(400).json({ error: 'Bad Request' })
