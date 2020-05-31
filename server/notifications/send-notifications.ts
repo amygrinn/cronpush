@@ -49,6 +49,20 @@ export default async (now: Date) => {
       body: schedule.message,
       icon: schedule.icon,
       badge: schedule.icon,
+      tag: schedule.id,
+      renotify: true,
+      requireInteraction: true,
+      timestamp: notification.date.getTime(),
+      actions: [
+        {
+          action: 'dismiss',
+          title: 'Dismiss',
+        },
+        {
+          action: 'edit',
+          title: 'Edit',
+        },
+      ],
     }
 
     try {

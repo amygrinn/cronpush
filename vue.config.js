@@ -4,6 +4,15 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 
 module.exports = {
+  css: {
+    loaderOptions: {
+      sass: {
+        sassOptions: {
+          includePaths: ['src/styles'],
+        },
+      },
+    },
+  },
   devServer: {
     proxy: {
       '/api': {

@@ -8,16 +8,18 @@ self.addEventListener('push', event => {
 self.addEventListener('notificationclick', event => {
   event.notification.close()
 
-  event.waitUntil(
-    clients.matchAll({
-      type: 'window',
-      includeUncontrolled: true
-    }).then((windowClients) => {
-      if (windowClients.length > 0) {
-        return windowClients[0].focus()
-      } else {
-        return clients.openWindow('/')
-      }
-    })
-  )
+  if (event.action !== 'dismiss') {
+    return event.waitUntil(
+      clients.matchAll({
+        type: 'window',
+        includeUncontrolled: true
+      }).then((windowClients) => {
+        if (windowClients.length > 0) {
+          return windowClients[0].focus()
+        } else {
+          return clients.openWindow('/')
+        }
+      })
+    )
+  }
 })

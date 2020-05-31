@@ -2,11 +2,7 @@
   <div class="w-100 p-3">
     <b-card
       class="position-relative"
-      :style="
-        schedule.enabled && pushEnabled
-          ? ''
-          : 'background-color: rgba(0, 0, 0, 0.3);'
-      "
+      :style="schedule.enabled ? '' : 'background-color: rgba(0, 0, 0, 0.3);'"
     >
       <template v-slot:header>
         <div class="d-flex justify-content-between align-items-center">
@@ -27,7 +23,7 @@
           @check="toggleEnabled"
           :loading="updating"
         />
-        <p><b>Message: </b> {{ schedule.message }}</p>
+        <p v-if="schedule.message"><b>Message: </b> {{ schedule.message }}</p>
         <p><b>Notify me:</b> {{ schedule.cronExpression | cronstrue }}</p>
         <p v-if="schedule.enabled && pushEnabled" class="text-center">
           {{ nextOccurence }}
