@@ -2,7 +2,7 @@
   <div class="header d-flex flex-column align-items-center" :on="on" :off="!on">
     <div class="overlay position-fixed" />
 
-    <p class="instructions position-fixed">
+    <p class="instructions position-fixed" v-if="!on">
       Click to enter or <a>learn more</a>
     </p>
 
@@ -102,7 +102,7 @@ h1 {
   .overlay {
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.3s 0.5s
+    transition: opacity 0.3s 0.5s;
   }
 
   .title {
@@ -141,7 +141,6 @@ h1 {
     transition: transform 0.3s ease-in-out;
   }
 }
-
 </style>
 
 <script lang="ts">

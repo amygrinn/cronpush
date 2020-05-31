@@ -21,13 +21,7 @@
       </div>
     </div>
 
-    <fab
-      v-show="!!pushSubscription"
-      v-b-modal.create-schedule-modal
-      position="bottom-right"
-      icon-size="small"
-      class="position-fixed"
-    />
+    <fab v-b-modal.create-schedule-modal />
 
     <!-- MODALS -->
 
@@ -48,10 +42,6 @@
 <style lang="scss">
 @import './styles/index.scss';
 
-.fab-main {
-  background-color: $primary !important;
-}
-
 :focus {
   outline: none;
 }
@@ -64,8 +54,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import Fab from 'vue-fab'
 
+import Fab from './components/Fab.vue'
 import DelayedCheckbox from './components/DelayedCheckbox.vue'
 import Schedule from './components/Schedule.vue'
 import ScheduleModal from './components/ScheduleModal.vue'

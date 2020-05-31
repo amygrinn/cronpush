@@ -2,6 +2,7 @@
   <div
     class="power-button position-relative d-flex justify-content-center align-items-center"
     :loading="loading"
+    :off="!on"
   >
     <div v-if="loading" class="spinner position-absolute" />
     <div class="glow position-absolute" />
@@ -11,7 +12,9 @@
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="black"
-      :style="`width: ${diameter}px; height: ${diameter}px; background-color: ${color};`"
+      :style="
+        `width: ${diameter}px; height: ${diameter}px; background-color: ${color};`
+      "
     >
       <path d="M0 0h24v24H0z" fill="none" />
       <path
@@ -25,8 +28,6 @@
 @import 'variables';
 
 .power-button {
-  animation: bob 3s infinite 2s;
-
   .spinner {
     width: calc(100% + 4px);
     height: calc(100% + 4px);
@@ -75,7 +76,6 @@
     left: 0;
     opacity: 0.6;
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-    animation: pulsate 3s infinite 2s;
   }
 
   .icon {
@@ -87,6 +87,14 @@
     padding: 0;
     width: 100%;
     height: 100%;
+  }
+}
+
+.power-button[off] {
+  animation: bob 3s infinite 2s;
+
+  .glow {
+    animation: pulsate 3s infinite 2s;
   }
 }
 
