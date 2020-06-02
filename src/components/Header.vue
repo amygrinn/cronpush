@@ -3,7 +3,7 @@
     <div class="overlay position-fixed" />
 
     <p class="instructions position-fixed" v-if="!on">
-      Click to enter or <a>learn more</a>
+      Click to enter or <router-link to="/about">learn more</router-link>
     </p>
 
     <div class="d-flex flex-column px-2" style="max-width: 100%">
