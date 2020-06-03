@@ -84,17 +84,17 @@
     border: 1px solid rgba(0, 0, 0, 0.3);
     cursor: pointer;
     margin: 0;
-    padding: 0;
+    padding: 4px;
     width: 100%;
     height: 100%;
   }
 }
 
 .power-button[off] {
-  animation: bob 3s infinite 2s;
+  animation: bob 3s infinite;
 
   .glow {
-    animation: pulsate 3s infinite 2s;
+    animation: pulsate 3s infinite;
   }
 }
 
@@ -180,7 +180,7 @@ export default Vue.extend({
       on: 'push/enabled',
     }),
     color() {
-      return this.on ? 'var(--primary-light)' : 'var(--gray)'
+      return this.on ? 'var(--success)' : 'var(--danger)'
     },
     radius() {
       return this.on ? 34 : 108

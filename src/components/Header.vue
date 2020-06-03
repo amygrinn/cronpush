@@ -71,18 +71,12 @@ h1 {
 
 .instructions {
   z-index: 6;
-  animation: fade_in 1s 2s forwards;
+  animation: fade_in 1s forwards;
   opacity: 0;
   color: white;
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-
-  a {
-    color: $primary-light;
-    text-decoration: underline;
-    cursor: pointer;
-  }
 }
 
 .toolbar i {

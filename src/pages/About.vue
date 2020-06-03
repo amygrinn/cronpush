@@ -19,4 +19,9 @@
 .content {
   overflow-y: scroll;
 }
+
+a:hover {
+  color: black;
+}
+
 </style>
