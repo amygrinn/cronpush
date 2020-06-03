@@ -24,9 +24,9 @@
           :loading="updating"
         />
         <p v-if="schedule.message"><b>Message: </b> {{ schedule.message }}</p>
-        <p><b>Notify me:</b> {{ schedule.cronExpression | cronstrue }}</p>
+        <p><b>Notify me:</b> {{ schedule.description }}</p>
         <p v-if="schedule.enabled && pushEnabled" class="text-center">
-          {{ nextOccurence }}
+          {{ schedule.nextString }}
         </p>
       </div>
     </b-card>
@@ -57,7 +57,6 @@ export default Vue.extend({
   },
   data: () => ({
     updating: false,
-    nextOccurence: '',
   }),
   filters: {
     cronstrue: cronstrue.toString,
@@ -81,21 +80,6 @@ export default Vue.extend({
         }
       }
     },
-  },
-  created() {
-    setInterval(() => {
-      const nextDate = cronParser
-        .parseExpression(this.schedule.cronExpression)
-        .next()
-        .toDate()
-      const relativeToNow = DateTime.fromJSDate(nextDate).toRelative()
-      if (relativeToNow) {
-        this.nextOccurence =
-          relativeToNow.charAt(0).toUpperCase() + relativeToNow.substring(1)
-      } else {
-        this.nextOccurence = ''
-      }
-    }, 1000)
   },
 })
 </script>
