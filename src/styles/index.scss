@@ -19,3 +19,7 @@ body {
     opacity: 1;
   }
 }
+
+.modal-header {
+  @extend .bg-secondary;
+}

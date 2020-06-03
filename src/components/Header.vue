@@ -79,7 +79,7 @@ h1 {
   transform: translateX(-50%);
 
   a {
-    color: $primary-light;
+    color: $secondary;
     text-decoration: underline;
     cursor: pointer;
   }

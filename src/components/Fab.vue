@@ -10,7 +10,7 @@
 .fab {
   bottom: 0;
   right: 0;
-  background-color: $primary-light;
+  background-color: $secondary;
   border-radius: 50%;
   padding: 8;
   cursor: pointer;
