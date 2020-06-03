@@ -66,7 +66,7 @@
           <b-button class="mb-1" v-b-modal.recipes-modal>Recipes</b-button>
         </div>
       </template>
-      <b-form-input
+      <cron-expression-input
         :state="validCronExpression"
         v-model="newSchedule.cronExpression"
       />
@@ -80,7 +80,7 @@
       <b-button
         @click="make"
         v-if="create"
-        :disabled="!validCronExpression"
+        :disabled="!validSchedule"
         type="submit"
         variant="primary"
       >
@@ -89,7 +89,7 @@
       <b-button
         v-if="edit"
         @click="save"
-        :disabled="!validCronExpression"
+        :disabled="!validSchedule"
         type="submit"
         variant="primary"
       >
@@ -124,6 +124,8 @@ import Vue from 'vue'
 import cronstrue from 'cronstrue'
 import cronParser from 'cron-parser'
 
+import CronExpressionInput from './CronExpressionInput.vue'
+
 const icons = [
   '/icons/alarm.png',
   '/icons/bar.png',
@@ -146,10 +148,29 @@ const recipes = [
   '0 9-17 * * *',
   '15 8 ? * Mon-Fri',
   '15 10 15 * ?',
-  '0 18 1/5 * ?',
+  '0 18 */5 * ?',
 ]
 
+const validCronExpression = (expression: string) => {
+  const tokens = expression.split(' ')
+
+  if (tokens.length !== 5 || tokens.findIndex(token => !token) > -1) {
+    return false
+  }
+
+  try {
+    cronstrue.toString(expression)
+    cronParser.parseExpression(expression)
+    return true
+  } catch {
+    return false
+  }
+}
+
 export default Vue.extend({
+  components: {
+    CronExpressionInput,
+  },
   props: {
     create: Boolean,
     edit: Boolean,
@@ -162,7 +183,7 @@ export default Vue.extend({
       title: '',
       message: '',
       icon: '/icons/star.png',
-      cronExpression: '',
+      cronExpression: '0 * * * *',
     },
     icons,
     recipes,
@@ -201,20 +222,15 @@ export default Vue.extend({
   },
   computed: {
     validCronExpression() {
-      if (this.newSchedule.cronExpression.split(' ').length !== 5) {
-        return false
-      }
-
-      try {
-        cronstrue.toString(this.newSchedule.cronExpression)
-        cronParser.parseExpression(this.newSchedule.cronExpression)
+      if (validCronExpression(this.newSchedule.cronExpression)) {
         return true
-      } catch {
-        return false
       }
+      return false
     },
     cronExpressionError() {
-      if (this.newSchedule.cronExpression.split(' ').length !== 5) {
+      const tokens = this.newSchedule.cronExpression.split(' ')
+
+      if (tokens.length !== 5 || tokens.findIndex(token => !token) > -1) {
         return 'Expression must have 5 parts'
       }
 
@@ -225,6 +241,15 @@ export default Vue.extend({
       }
 
       return ''
+    },
+    validSchedule() {
+      if (
+        this.newSchedule.title &&
+        validCronExpression(this.newSchedule.cronExpression)
+      ) {
+        return true
+      }
+      return false
     },
   },
 })
