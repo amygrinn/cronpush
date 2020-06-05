@@ -208,7 +208,6 @@ export default Vue.extend({
       }
     },
     animationStarted() {
-      console.log('animation started')
       this.animationStart = new Date()
     },
   },
