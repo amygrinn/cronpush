@@ -6,6 +6,7 @@
     <div class="content d-flex flex-column align-items-center">
       <h1 class="m-4">Cron Push</h1>
       <h3 class="m-4">Push notification scheduler</h3>
+      <p>[Work in progress]</p>
     </div>
   </div>
 </template>
