@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueResizeText from 'vue-resize-text'
 
 import './registerServiceWorker'
 
@@ -6,9 +7,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-Vue.config.productionTip = false
-
 import './bootstrap'
+
+Vue.config.productionTip = false
+Vue.use(VueResizeText)
 
 new Vue({
   router,

@@ -11,6 +11,14 @@ body {
   outline: none !important;
 }
 
+h1 {
+  font-family: 'Major Mono Display', monospace;
+}
+
+i {
+  cursor: pointer;
+}
+
 @keyframes fade_in {
   0% {
     opacity: 0;

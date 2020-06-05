@@ -12,6 +12,7 @@ export interface Schedule {
   icon: string
   cronExpression: string
   enabled: boolean
+  prev?: Date
   next?: Date
   nextString: String
   description: String
@@ -36,10 +37,10 @@ const createSchedule = (schedule: Partial<Schedule>): Schedule => {
   try {
     schedule.description = cronstrue.toString(schedule.cronExpression)
 
-    schedule.next = cronParser
-      .parseExpression(schedule.cronExpression)
-      .next()
-      .toDate()
+    const expression = cronParser.parseExpression(schedule.cronExpression)
+
+    schedule.prev = expression.prev().toDate()
+    schedule.next = expression.next().toDate()
 
     const nextString = DateTime.fromJSDate(schedule.next).toRelative()
     if (nextString) {

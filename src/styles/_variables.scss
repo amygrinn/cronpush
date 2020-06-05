@@ -1,17 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
 
-h1 {
-  font-family: 'Major Mono Display', monospace;
-}
-
-:root {
-  --primary-light: rgba(183,213,130,1);; // $rgba-secondary-1-2
-}
-
 $primary: hsla(201, 19%, 25%, 1);
 $background: $primary;
 $background-disabled: hsla(201, 19%, 10%, 1);
 $secondary: hsla(233, 6%, 73%, 1);
+$secondary-light: hsla(233, 6%, 95%, 1);
 $success: hsla(116, 15%, 80%, 1);
 $danger: hsla(15, 80%, 70%, 1);
 

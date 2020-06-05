@@ -1,5 +1,6 @@
 <template>
   <div
+    @click="updatePushSubscription()"
     class="power-button position-relative d-flex justify-content-center align-items-center"
     :loading="loading"
     :off="!on"
@@ -7,7 +8,6 @@
     <div v-if="loading" class="spinner position-absolute" />
     <div class="glow position-absolute" />
     <svg
-      @click="updatePushSubscription()"
       class="icon"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -28,6 +28,8 @@
 @import 'variables';
 
 .power-button {
+  pointer-events: auto;
+
   .spinner {
     width: calc(100% + 4px);
     height: calc(100% + 4px);
