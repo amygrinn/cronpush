@@ -108,7 +108,7 @@
   </b-form>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .icon {
   width: 36px;
   height: 36px;

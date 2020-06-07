@@ -35,6 +35,7 @@
         <div
           class="header mb-2 d-flex justify-content-between align-items-center"
         >
+          <img :src="schedule.icon" class="icon" />
           <h3
             class="flex-grow-1"
             v-resize-text="{ maxFontSize: '24px', ratio: 1.5 }"
@@ -57,7 +58,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import 'variables';
 
 .schedule {
@@ -92,6 +93,12 @@
     }
     .header {
       height: 18px;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
     }
 
     .description {
