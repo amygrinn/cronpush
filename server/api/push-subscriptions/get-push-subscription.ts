@@ -8,7 +8,7 @@ const getPushSubscription: RequestHandler = async (req, res) => {
   }
 
   const pushSubscription = await PushSubscriptions.findOne({
-    where: { endpoint: req.query.endpoint },
+    where: { endpoint: req.query.endpoint as string },
     include: [Users],
   })
   if (!pushSubscription) {

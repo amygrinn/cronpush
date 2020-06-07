@@ -7,7 +7,7 @@ const getSchedules: RequestHandler = async (req, res) => {
     return res.status(400).json({ error: 'Bad Request' })
   }
   
-  const pushSubscription = await PushSubscriptions.findOne({ where: { endpoint: req.query.endpoint }})
+  const pushSubscription = await PushSubscriptions.findOne({ where: { endpoint: req.query.endpoint as string }})
 
   if (!pushSubscription) {
     return res.status(404).json({ error: 'Push Subscription does not exist' })

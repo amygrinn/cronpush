@@ -17,7 +17,7 @@ export const register = new LocalStrategy(async (username, password, done) => {
   jsonwebtoken.sign(
     user.sanitized(),
     process.env.JWT_SECRET as string,
-    (err: Error, token: string) => {
+    (err: Error | null, token: any) => {
       user.token = token
       done(err, user)
     }
@@ -38,7 +38,7 @@ export const login = new LocalStrategy(async (username, password, done) => {
   jsonwebtoken.sign(
     user.sanitized(),
     process.env.JWT_SECRET as string,
-    (err: Error, token: any) => {
+    (err: Error | null, token: any) => {
       user.token = token
       done(err, user)
     }
