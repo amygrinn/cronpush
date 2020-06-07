@@ -118,7 +118,7 @@ const schedulesModule: Module<SchedulesModule, any> = {
           schedule,
           push: { endpoint },
         })
-        const schedules: Schedule[] = getters.schedules
+        const schedules: Schedule[] = [...getters.schedules]
         schedules.push(result.data)
         commit('setSchedules', schedules.map(createSchedule))
       }
