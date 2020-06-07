@@ -49,6 +49,7 @@
     </b-form-group>
     <b-form-group>
       <img :src="newSchedule.icon" class="icon" v-b-modal.icons-modal />
+      <a v-b-modal.icons-modal>Change icon</a>
     </b-form-group>
     <b-form-group label="Title">
       <b-form-input required v-model="newSchedule.title" />
@@ -110,12 +111,12 @@
 
 <style lang="scss" scoped>
 .icon {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border: 1px solid black;
   border-radius: 6px;
-  margin: 4px;
-  padding: 8px;
+  padding: 4px;
+  margin-right: 8px;
 }
 </style>
 
