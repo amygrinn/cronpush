@@ -1,0 +1,11 @@
+Separate server and client applications
+
+Remove
+  - axios
+  - bootstrap
+  - bootstrap-vue
+  - babel
+  - luxon -> moment
+  - vue-fab
+  - vue-resize-text
+  

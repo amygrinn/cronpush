@@ -26,14 +26,14 @@ export const router = Router()
 
 router.post('/register',
   passport.authenticate(['register-local'], { session: false, failWithError: true }),
-  ((req, res) => res.json(req.user!.sanitized())) as RequestHandler,
+  ((req, res) => res.json((req.user as any).sanitized())) as RequestHandler,
   ((error, req, res, next) => res.status(400).json({ error })) as ErrorRequestHandler
 )
 
 router.post('/login',
   passport.authenticate(['login-local'], { session: false, failWithError: true }),
-  ((req, res) => res.json(req.user!.sanitized())) as RequestHandler,
+  ((req, res) => res.json((req.user as any).sanitized())) as RequestHandler,
   ((error, req, res, next) => res.status(400).json({ error })) as ErrorRequestHandler
 )
 
-router.get('/verify', verify(true), (req, res) => res.json(req.user!.sanitized()))
+router.get('/verify', verify(true), (req, res) => res.json((req.user as any).sanitized()))

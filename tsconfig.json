@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
-    "strict": true,
+    "strict": false,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
@@ -17,9 +17,6 @@
       "chai"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
       "~/*": [
         "server/*"
       ]
@@ -39,7 +36,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx", "src/sw.js",
+    "tests/**/*.tsx",
+    "src/sw.js",
     "server/**/*.ts"
   ],
   "exclude": [
