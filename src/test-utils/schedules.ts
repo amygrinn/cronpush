@@ -3,7 +3,7 @@ import request from 'supertest';
 import app from 'src/app';
 import * as PushSubscriptions from './push-subscriptions';
 
-const init = async (token: string) => {
+export const init = async (token: string) => {
   const ids: string[] = [];
   await request(app)
     .post('/schedules')

@@ -6,8 +6,8 @@
     "start:w": "nodemon -w src -e ts --exec \"yarn start\"",
     "start": "run-p lint serve",
     "serve": "node -r ./node-registers src/index.ts",
-    "test-server": "cross-env NODE_ENV=test mocha --exit -r node-registers src/**/*.spec.ts",
-    "test-server:w": "yarn test-server -w --watch-files src/**/*.ts",
+    "test": "cross-env NODE_ENV=test mocha --timeout 5000 --exit --require node-registers src/**/*.spec.ts",
+    "test:w": "yarn test -w --watch-files src/**/*.ts",
     "lint": "eslint --ext .js,.ts ./"
   },
   "dependencies": {
