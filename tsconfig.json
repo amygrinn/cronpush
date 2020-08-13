@@ -12,33 +12,24 @@
     "baseUrl": ".",
     "allowJs": true,
     "types": [
-      "webpack-env",
+      "node",
       "mocha",
       "chai"
     ],
     "paths": {
       "~/*": [
-        "server/*"
+        "src/*"
       ]
     },
     "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
+      "esnext"
     ],
     "typeRoots": [
-      "server/typings"
+      "src/typings"
     ]
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "src/sw.js",
-    "server/**/*.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules"
