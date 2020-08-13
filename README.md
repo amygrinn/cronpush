@@ -6,10 +6,10 @@
     Start the mysql database
     See `docker-compose` section
 
-2. `yarn`\
+2. `npm i`\
     Install node dependencies
 
-3. `yarn start`\
+3. `npm start`\
     Build the project and watch for changes. After each build, the lint and
     serve scripts will be run.
 
@@ -35,9 +35,14 @@
   If any changes are made to the `docker-compose.yml` file or the `mysql` folder, add
   the `--build` flag to the command when starting to incorporate the changes
 
+## Build
+```
+npm run build
+```
+
 ## Serve
 ```
-yarn serve
+npm run serve
 ```
 
 ## Tests
@@ -47,10 +52,10 @@ by default. The database will be cleared completely for each test
 
 ### Standalone
 ```
-yarn test
+npm test
 ```
 
 ### During development
-`yarn start` will start the tests in debug mode.\
+`npm start` will start the tests in debug mode.\
 Attach a debugger to the default node debug port, `9229`, and continue past the initial breakpoint to run the tests.\
 The test will be restarted when the code changes or by typing `rs` into the terminal to restart manually.
