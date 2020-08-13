@@ -32,8 +32,6 @@ test:
     paths:
       - bin/
 
-
-
 # deploy:
 #   stage: deploy
 #   image: alpine
