@@ -7,6 +7,8 @@ import initPushSubscriptions from './push-subscriptions';
 import initSchedules from './schedules';
 import initNotifications from './notifications';
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const initSequelize: () => Promise<void> = async () => {
   const sequelize = new Sequelize.Sequelize(
     process.env.NODE_ENV === 'test'
@@ -29,7 +31,19 @@ const initSequelize: () => Promise<void> = async () => {
   initSchedules(sequelize);
   initNotifications(sequelize);
 
-  await sequelize.sync({ force: process.env.NODE_ENV === 'test' });
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      await sequelize.sync({ force: process.env.NODE_ENV === 'test' });
+      break;
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log('Cannot connect to database. Retrying in 5 seconds');
+      // eslint-disable-next-line no-await-in-loop
+      await sleep(5000);
+    }
+  }
 };
 
 export default initSequelize;

@@ -1,3 +1,5 @@
+/// <reference path='../../typings/express.d.ts' />
+
 import { RequestHandler, Response } from 'express';
 
 import { PushSubscriptions, Users } from 'src/models';

@@ -1,7 +1,7 @@
 import * as Sequelize from 'sequelize';
 
 import { PushSubscriptions } from './push-subscriptions';
-import type { Users } from './users';
+import { Users } from './users';
 import type { Notifications } from './notifications';
 
 export class ScheduleSubscriptions extends Sequelize.Model {

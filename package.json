@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -w src -e ts --exec \"node -r ./node-registers server\"",
-    "serve": "pm2 restart cron-push",
+    "start:w": "nodemon -w src -e ts --exec \"yarn start\"",
+    "start": "run-p lint serve",
+    "serve": "node -r ./node-registers src/index.ts",
     "test-server": "cross-env NODE_ENV=test mocha --exit -r node-registers src/**/*.spec.ts",
     "test-server:w": "yarn test-server -w --watch-files src/**/*.ts",
     "lint": "eslint --ext .js,.ts ./"

@@ -1,7 +1,7 @@
 import * as Sequelize from 'sequelize';
 import cronParser from 'cron-parser';
 
-import { dateToMySQL } from 'src/util';
+import dateToMySQL from 'src/util';
 
 import {
   Notifications,

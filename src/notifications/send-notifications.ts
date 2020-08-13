@@ -3,11 +3,11 @@ import webPush from 'web-push';
 import {
   Notifications, ScheduleSubscriptions, Schedules, PushSubscriptions,
 } from 'src/models';
-import { dateToMySQL } from 'src/util';
+import dateToMySQL from 'src/util';
 
 webPush.setVapidDetails(
   'mailto:tyler@tygr.info',
-  process.env.VUE_APP_VAPID_PUBLIC_KEY as string,
+  process.env.VAPID_PUBLIC_KEY as string,
   process.env.VAPID_PRIVATE_KEY as string,
 );
 

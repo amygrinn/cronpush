@@ -1,7 +1,7 @@
 import * as Sequelize from 'sequelize';
 
 import { Notifications, ScheduleSubscriptions } from 'src/models';
-import { dateToMySQL } from 'src/util';
+import dateToMySQL from 'src/util';
 
 export default async (scheduleId: string) => {
   const notifications = await Notifications.findAll({
