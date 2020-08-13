@@ -16,7 +16,7 @@ test:
   image: node:12
 
   cache:
-    key: ${CI_COMMIT_REF_SLUG}-${CI_JOB_ID}
+    key: ${CI_COMMIT_REF_SLUG}-${CI_JOB_STAGE}
     paths:
       - .npm/
 
