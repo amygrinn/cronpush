@@ -1,19 +1,17 @@
 import { expect } from 'chai';
 import request from 'supertest';
 
-import app from 'src/app';
-import { initSequelize } from 'src/models';
-import { Auth } from 'src/test-utils';
+import app from '../../../app';
+import { initSequelize } from '../../../models';
+import { Auth } from '../../../test-utils';
 
 describe('Create push subscription', () => {
   let token: string;
-  before(async () => {
-    await initSequelize();
-    token = await Auth.init();
-  });
+  before(() => initSequelize().then(Auth.init).then((t) => { token = t; }));
 
-  it('Creates a new subscription w/o login', (done) => {
-    request(app)
+  it(
+    'Creates a new subscription w/o login',
+    () => request(app)
       .post('/push')
       .send({
         endpoint: 'endpoint',
@@ -29,12 +27,12 @@ describe('Create push subscription', () => {
         expect(response.body.endpoint).to.equal('endpoint');
         expect(response.body.timeZone).to.equal('America/New_York');
         expect(response.body.enabled).to.be.true;
-        done();
-      });
-  });
+      }),
+  );
 
-  it('Creates a new subscription w/ login', (done) => {
-    request(app)
+  it(
+    'Creates a new subscription w/ login',
+    () => request(app)
       .post('/push')
       .set('Authorization', `Bearer ${token}`)
       .send({
@@ -52,7 +50,6 @@ describe('Create push subscription', () => {
         expect(response.body.timeZone).to.equal('America/New_York');
         expect(response.body.enabled).to.be.true;
         expect(response.body.user).to.not.be.null;
-        done();
-      });
-  });
+      }),
+  );
 });

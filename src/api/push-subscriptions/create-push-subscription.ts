@@ -2,7 +2,7 @@
 
 import { RequestHandler, Response } from 'express';
 
-import { PushSubscriptions, Users } from 'src/models';
+import { PushSubscriptions, Users } from '../../models';
 
 const createPushSubscription: RequestHandler = async (req, res): Promise<Response> => {
   if (

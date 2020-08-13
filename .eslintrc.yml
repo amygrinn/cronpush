@@ -7,7 +7,7 @@
   env:
     node: true
   ignorePatterns:
-    - node-registers.js
+    - '**/*.js'
   rules:
     import/extensions: off
     max-classes-per-file: off

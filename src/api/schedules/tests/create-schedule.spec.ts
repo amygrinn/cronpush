@@ -1,20 +1,19 @@
 import { expect } from 'chai';
 import request from 'supertest';
 
-import app from 'src/app';
-import { initSequelize } from 'src/models';
-import { Auth, PushSubscriptions } from 'src/test-utils';
+import app from '../../../app';
+import { initSequelize } from '../../../models';
+import { Auth, PushSubscriptions } from '../../../test-utils';
 
 describe('Create schedule', () => {
   let token: string;
-  before(async () => {
-    await initSequelize();
-    token = await Auth.init();
-    await PushSubscriptions.init(token);
-  });
+  before(() => initSequelize()
+    .then(Auth.init).then((t) => { token = t; })
+    .then(() => PushSubscriptions.init(token)));
 
-  it('Creates a schedule w/o login', (done) => {
-    request(app)
+  it(
+    'Creates a schedule w/o login',
+    () => request(app)
       .post('/schedules')
       .send({
         push: {
@@ -36,12 +35,12 @@ describe('Create schedule', () => {
         expect(response.body.icon).to.equal('/icons/star.png');
         expect(response.body.cronExpression).to.equal('* * * * * *');
         expect(response.body.enabled).to.be.true;
-        done();
-      });
-  });
+      }),
+  );
 
-  it('Creates a schedule w/ login', (done) => {
-    request(app)
+  it(
+    'Creates a schedule w/ login',
+    () => request(app)
       .post('/schedules')
       .set('Authorization', `Bearer ${token}`)
       .send({
@@ -65,7 +64,6 @@ describe('Create schedule', () => {
         expect(response.body.cronExpression).to.equal('* * * * * *');
         expect(response.body.enabled).to.be.true;
         expect(response.body.user).to.not.be.null;
-        done();
-      });
-  });
+      }),
+  );
 });

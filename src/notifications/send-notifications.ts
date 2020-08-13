@@ -2,8 +2,8 @@ import webPush from 'web-push';
 
 import {
   Notifications, ScheduleSubscriptions, Schedules, PushSubscriptions,
-} from 'src/models';
-import dateToMySQL from 'src/util';
+} from '../models';
+import dateToMySQL from '../util';
 
 webPush.setVapidDetails(
   'mailto:tyler@tygr.info',

@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 
-import { Schedules, PushSubscriptions } from 'src/models';
+import { Schedules, PushSubscriptions } from '../../models';
 
 const createSchedule: RequestHandler = async (req, res) => {
   if (

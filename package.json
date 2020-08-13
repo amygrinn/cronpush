@@ -1,14 +1,17 @@
 {
   "name": "cron-push",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
-    "start:w": "nodemon -w src -e ts --exec \"yarn start\"",
-    "start": "run-p lint serve",
-    "serve": "node -r ./node-registers src/index.ts",
-    "test": "cross-env NODE_ENV=test mocha --timeout 5000 --exit --require node-registers src/**/*.spec.ts",
-    "test:w": "yarn test -w --watch-files src/**/*.ts",
-    "lint": "eslint --ext .js,.ts ./"
+    "start": "run-p --silent watch build:w",
+    "build": "tsc",
+    "build:w": "tsc --watch",
+    "watch": "nodemon --quiet --watch bin --on-change-only --exec \"yarn --silent watch:task\"",
+    "watch:task": "run-p --silent --print-label lint test:debug serve",
+    "lint": "eslint --ext .js,.ts --format visualstudio ./",
+    "serve": "node --require ./node-registers --enable-source-maps bin/cron-push",
+    "test": "cross-env NODE_ENV=test mocha --timeout 5000 --exit --require node-registers bin/**/*.spec.js",
+    "test:debug": "yarn --silent test --inspect --inspect-publish-uid=http --inspect-brk"
   },
   "dependencies": {
     "bcrypt": "^3.0.7",
@@ -27,7 +30,6 @@
     "sequelize-noupdate-attributes": "^1.0.0",
     "supertest": "^4.0.2",
     "ts-node": "^8.6.2",
-    "tsconfig-paths": "^3.9.0",
     "web-push": "^3.4.3"
   },
   "devDependencies": {
@@ -44,13 +46,13 @@
     "@types/supertest": "^2.0.10",
     "@types/web-push": "^3.3.0",
     "@typescript-eslint/eslint-plugin": "^3.9.0",
-    "axios": "^0.19.0",
     "chai": "^4.2.0",
     "eslint": "^7.6.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-airbnb-typescript": "^9.0.0",
     "eslint-plugin-chai-expect": "^2.2.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-watch": "^7.0.0",
     "luxon": "^1.22.0",
     "nodemon": "^2.0.1",
     "npm-run-all": "^4.1.5",

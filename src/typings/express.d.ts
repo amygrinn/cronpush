@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Users } from 'src/models';
+import { Users } from '../models';
 
 declare global {
   namespace Express {

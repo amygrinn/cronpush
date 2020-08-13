@@ -1,6 +1,6 @@
 import request from 'supertest';
 
-import app from 'src/app';
+import app from '../app';
 
 export const ENDPOINT = 'endpoint';
 export const USER_ENDPOINT = 'user-endpoint';

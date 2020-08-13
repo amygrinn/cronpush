@@ -1,7 +1,7 @@
 import { RequestHandler, Response } from 'express';
 
-import { Schedules, PushSubscriptions, Users } from 'src/models';
-import { removeFutureNotifications } from 'src/notifications';
+import { Schedules, PushSubscriptions, Users } from '../../models';
+import { removeFutureNotifications } from '../../notifications';
 
 const patchSchedule: RequestHandler = async (req, res): Promise<Response> => {
   const schedule = await Schedules.findOne({

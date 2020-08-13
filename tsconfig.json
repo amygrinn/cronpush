@@ -11,16 +11,12 @@
     "sourceMap": true,
     "baseUrl": ".",
     "allowJs": true,
+    "outDir": "bin/cron-push",
     "types": [
       "node",
       "mocha",
       "chai"
     ],
-    "paths": {
-      "~/*": [
-        "src/*"
-      ]
-    },
     "lib": [
       "esnext"
     ],

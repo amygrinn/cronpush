@@ -1,7 +1,4 @@
-require('ts-node/register');
-require('tsconfig-paths/register');
-
-let defaultEnv = {
+const defaultEnv = {
   PORT: '8080',
   NODE_ENV: 'development',
   JWT_SECRET: 'shhh',

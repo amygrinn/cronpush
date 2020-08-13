@@ -3,7 +3,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import jsonwebtoken from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-import { Users } from 'src/models';
+import { Users } from '../../../models';
 
 const signJwt = (payload: any) => new Promise<string>((resolve, reject) => {
   jsonwebtoken.sign(

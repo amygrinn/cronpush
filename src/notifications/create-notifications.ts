@@ -1,14 +1,14 @@
 import * as Sequelize from 'sequelize';
 import cronParser from 'cron-parser';
 
-import dateToMySQL from 'src/util';
+import dateToMySQL from '../util';
 
 import {
   Notifications,
   ScheduleSubscriptions,
   PushSubscriptions,
   Schedules,
-} from 'src/models';
+} from '../models';
 
 export default async (now: Date) => {
   let notificationsToCreate = await ScheduleSubscriptions.findAll({

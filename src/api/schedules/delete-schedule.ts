@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 
-import { Schedules, Users } from 'src/models';
+import { Schedules, Users } from '../../models';
 
 const deleteSchedule: RequestHandler = async (req, res) => {
   const schedule = await Schedules.findOne({
