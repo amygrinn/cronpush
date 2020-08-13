@@ -2,20 +2,18 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
-    "strict": false,
-    "jsx": "preserve",
+    "strict": true,
     "importHelpers": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
     "allowJs": true,
     "outDir": "bin/cron-push",
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "types": [
       "node",
-      "mocha",
-      "chai"
+      "mocha"
     ],
     "lib": [
       "esnext"

@@ -8,8 +8,8 @@ import { Users } from '../../../models';
 const signJwt = (payload: any) => new Promise<string>((resolve, reject) => {
   jsonwebtoken.sign(
     payload,
-    process.env.JWT_SECRET,
-    (err?: Error, token?: string) => (err ? reject(err) : resolve(token)),
+    process.env.JWT_SECRET!,
+    (err?: Error | null, token?: string) => (err ? reject(err) : resolve(token)),
   );
 });
 

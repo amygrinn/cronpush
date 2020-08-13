@@ -6,12 +6,12 @@
     "start": "run-p --silent watch build:w",
     "build": "tsc",
     "build:w": "tsc --watch",
-    "watch": "nodemon --quiet --watch bin --on-change-only --exec \"yarn --silent watch:task\"",
+    "watch": "nodemon --quiet --watch bin --on-change-only --exec \"npm run watch:task\"",
     "watch:task": "run-p --silent --print-label lint test:debug serve",
     "lint": "eslint --ext .js,.ts --format visualstudio ./",
     "serve": "node --require ./node-registers --enable-source-maps bin/cron-push",
     "test": "cross-env NODE_ENV=test mocha --timeout 5000 --exit --require node-registers bin/**/*.spec.js",
-    "test:debug": "yarn --silent test --inspect --inspect-publish-uid=http --inspect-brk"
+    "test:debug": "npm test -- --inspect --inspect-publish-uid=http --inspect-brk"
   },
   "dependencies": {
     "bcrypt": "^3.0.7",
