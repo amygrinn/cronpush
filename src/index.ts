@@ -1,3 +1,4 @@
+import './environment';
 import app from './app';
 import { initSequelize } from './models';
 import startNotifications from './notifications';

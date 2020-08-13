@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+
 const defaultEnv = {
   PORT: '8080',
   NODE_ENV: 'development',
@@ -12,6 +14,6 @@ const defaultEnv = {
   VAPID_PRIVATE_KEY: 'FxnKvASKejfrVOZTx-SSJVXUnKUInsu4sM19kU-VDNY',
 };
 
-process.env = Object.assign({}, defaultEnv, process.env);
+process.env = { ...defaultEnv, ...process.env };
 
-require('dotenv').config();
+dotenv.config();

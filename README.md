@@ -14,7 +14,7 @@
     serve scripts will be run.
 
 ## Environment
-1. Node environment variables: `node-registers.js`
+1. Node environment variables: `src/environment.ts`
     * You may create a `.env` file in the project root directory to modify defaults
     * Shell environment variables **will** be passed on to node and will overwrite
         variables listed in the `.env` file
