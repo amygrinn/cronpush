@@ -1,9 +1,6 @@
 #!/bin/bash
 
 cd cron-push
-git pull
-yarn
-yarn test-server
-yarn build
-yarn serve
-
+npm ci
+npm test
+# sudo systemctl restart cron-push

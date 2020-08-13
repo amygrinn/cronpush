@@ -1,5 +1,3 @@
-import dotenv from 'dotenv';
-
 const defaultEnv = {
   PORT: '8080',
   NODE_ENV: 'development',
@@ -15,5 +13,3 @@ const defaultEnv = {
 };
 
 process.env = { ...defaultEnv, ...process.env };
-
-dotenv.config();

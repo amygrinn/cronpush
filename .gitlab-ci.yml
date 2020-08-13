@@ -1,19 +1,20 @@
 stages:
   - test
-
-services:
-  - mysql:8
-
-variables:
-  MYSQL_DATABASE: cron-push-test
-  MYSQL_ROOT_PASSWORD: password
-  MYSQL_HOST: mysql
+  - deploy
 
 test:
 
   stage: test
 
   image: node:12
+
+  services:
+    - mysql:8
+
+  variables:
+    MYSQL_DATABASE: cron-push-test
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_HOST: mysql
 
   cache:
     key: ${CI_COMMIT_REF_SLUG}-${CI_JOB_STAGE}
@@ -32,21 +33,22 @@ test:
     paths:
       - bin/
 
-# deploy:
-#   stage: deploy
-#   image: alpine
-#   only:
-#     - master
-#   before_script:
-#     # SSH Setup
-#     - apk add --update --no-cache openssh
+deploy:
+  stage: deploy
+  image: alpine
+  only:
+    - release
+  before_script:
+    # SSH and rsync Setup
+    - apk add --update --no-cache openssh rsync
 
-#     - eval $(ssh-agent -s)
-#     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-#     - mkdir -p ~/.ssh
-#     - chmod 700 ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
 
-#     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-#     - chmod 644 ~/.ssh/known_hosts
-#   script:
-#     - ssh root@cronpush.tygr.info 'bash -s' < ./deploy.sh
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - rsync --rsh ssh --recursive --delete bin package.json package-lock.json cron-push@cronpush.tygr.info:cron-push
+    - ssh cron-push@cronpush.tygr.info 'bash -s' < ./deploy.sh

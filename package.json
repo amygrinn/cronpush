@@ -9,9 +9,18 @@
     "watch": "nodemon --quiet --watch bin --on-change-only --exec \"npm run --silent watch:task\"",
     "watch:task": "run-p --silent --print-label lint test:debug serve",
     "lint": "eslint --ext .js,.ts --format visualstudio ./",
-    "serve": "node --enable-source-maps bin/cron-push",
-    "test": "cross-env NODE_ENV=test mocha --timeout 5000 --exit --require bin/cron-push/environment bin/**/*.spec.js",
+    "serve": "node --require dotenv/config --enable-source-maps bin/cron-push",
+    "test": "cross-env NODE_ENV=test mocha",
     "test:debug": "npm test -- --inspect --inspect-publish-uid=http --inspect-brk"
+  },
+  "mocha": {
+    "timeout": 5000,
+    "exit": true,
+    "require": [
+      "dotenv/config",
+      "bin/cron-push/environment"
+    ],
+    "spec": "bin/**/*.spec.js"
   },
   "dependencies": {
     "bcrypt": "^3.0.7",
