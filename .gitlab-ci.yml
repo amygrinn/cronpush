@@ -7,6 +7,7 @@ services:
 variables:
   MYSQL_DATABASE: cron-push-test
   MYSQL_ROOT_PASSWORD: password
+  MYSQL_HOST: mysql
 
 test:
 
