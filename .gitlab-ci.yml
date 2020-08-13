@@ -1,39 +1,54 @@
 stages:
   - test
-  - deploy
+
+services:
+  - mysql:8
 
 variables:
-  YARN_CACHE_FOLDER: "$CI_PROJECT_DIR/.yarn"
-
-cache:
-  key: ${CI_COMMIT_REF_NAME}
-  paths:
-    - .yarn
-    - node_modules/
+  MYSQL_DATABASE: cron-push-test
+  MYSQL_ROOT_PASSWORD: password
+  MYSQL_HOST: mysql
 
 test:
+
   stage: test
+
   image: node:12
-  before_script:
-    - yarn
-  script:
-    - yarn lint --no-fix --max-warnings 0
 
-deploy:
-  stage: deploy
-  image: alpine
-  only:
-    - master
-  before_script:
-    # SSH Setup
-    - apk add --update --no-cache openssh
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-${CI_JOB_STAGE}
+    paths:
+      - .npm/
 
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    
-    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+
   script:
-    - ssh root@cronpush.tygr.info 'bash -s' < ./deploy.sh
+    - npm run lint
+    - npm run build
+    - npm test
+
+  artifacts:
+    paths:
+      - bin/
+
+
+
+# deploy:
+#   stage: deploy
+#   image: alpine
+#   only:
+#     - master
+#   before_script:
+#     # SSH Setup
+#     - apk add --update --no-cache openssh
+
+#     - eval $(ssh-agent -s)
+#     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#     - mkdir -p ~/.ssh
+#     - chmod 700 ~/.ssh
+
+#     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+#     - chmod 644 ~/.ssh/known_hosts
+#   script:
+#     - ssh root@cronpush.tygr.info 'bash -s' < ./deploy.sh

@@ -1,0 +1,14 @@
+---
+  extends:
+    - 'airbnb-typescript/base'
+    - 'plugin:chai-expect/recommended'
+  parserOptions:
+    project: './tsconfig.json'
+  env:
+    node: true
+  ignorePatterns:
+    - '**/*.js'
+  rules:
+    import/extensions: off
+    max-classes-per-file: off
+    '@typescript-eslint/no-unused-expressions': off
