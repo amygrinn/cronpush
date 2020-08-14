@@ -51,4 +51,4 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - rsync --rsh ssh --recursive --delete bin package.json package-lock.json cron-push@cronpush.tygr.info:cron-push
-    - ssh cron-push@cronpush.tygr.info 'bash -s' < ./deploy.sh
+    - ssh cron-push@cronpush.tygr.info 'bash -sl' < ./deploy.sh
