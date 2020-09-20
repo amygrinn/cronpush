@@ -60,7 +60,7 @@ const definition = {
     defaultValue: true,
   },
   endpoint: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: false,
     noUpdate: true,
   },
