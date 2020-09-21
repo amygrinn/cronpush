@@ -5,6 +5,7 @@ import {
 } from '../models';
 import dateToMySQL from '../util';
 
+webPush.setGCMAPIKey(process.env.GCM_API_KEY || null);
 webPush.setVapidDetails(
   'mailto:tyler@tygr.info',
   process.env.VAPID_PUBLIC_KEY as string,
