@@ -1,10 +1,10 @@
 stages:
-  - test
+  - build
   - deploy
 
-test:
+build:
 
-  stage: test
+  stage: build
 
   image: node:12
 

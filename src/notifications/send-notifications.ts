@@ -71,6 +71,8 @@ export default async (now: Date) => {
       await webPush.sendNotification(pushSubscriptionObject, JSON.stringify(payload));
       notification.update({ sent: true });
     } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
       pushSubscription.destroy();
     }
   }));
