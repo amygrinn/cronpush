@@ -5,7 +5,6 @@ import {
 } from '../models';
 import dateToMySQL from '../util';
 
-webPush.setGCMAPIKey(process.env.GCM_API_KEY || null);
 webPush.setVapidDetails(
   'mailto:tyler@tygr.info',
   process.env.VAPID_PUBLIC_KEY as string,
@@ -70,11 +69,16 @@ export default async (now: Date) => {
 
     try {
       await webPush.sendNotification(pushSubscriptionObject, JSON.stringify(payload));
-      notification.update({ sent: true });
+      await notification.update({ sent: true });
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
-      pushSubscription.destroy();
+      // Unknown authentication error within web push:
+      //   'www-authenticate': 'bearer error="invalid_request",error_description="Invalid token"'
+      // But the message is still delivered, so no action needed
+      if (err.statusCode !== 401) {
+        pushSubscription.destroy();
+      }
     }
   }));
 };
