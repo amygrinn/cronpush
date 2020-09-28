@@ -9,6 +9,8 @@ import {
 import dateToMySQL from '../util';
 
 export default async (now: Date) => {
+  now.setSeconds(-1);
+
   let notificationsToCreate = await ScheduleSubscriptions.findAll({
     include: [
       Schedules,
@@ -37,7 +39,6 @@ export default async (now: Date) => {
 
   await Promise.all(
     notificationsToCreate.map(async (n) => {
-      now.setSeconds(-1);
       const date = cronParser
         .parseExpression(n.schedule!.cronExpression, {
           tz: n.pushSubscription!.timeZone,
@@ -54,6 +55,7 @@ export default async (now: Date) => {
             where: {
               scheduleId: n.scheduleId,
             },
+            required: true,
           },
         ],
         where: {
