@@ -24,7 +24,7 @@ build:
     - npm ci --cache .npm --prefer-offline
 
   script:
-    - npm run lint
+    - npm run quality:check
     - npm run build
     - npm test
 
