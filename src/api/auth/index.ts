@@ -48,6 +48,11 @@ router.post(
     res.status(400).json({ error })) as ErrorRequestHandler
 );
 
-router.get('/verify', verify(true), (req, res) =>
-  res.json((req.user as any).sanitized())
+router.get(
+  '/verify',
+  verify(true),
+  ((req, res) => res.json((req.user as any).sanitized())) as RequestHandler,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, max-params
+  ((error, req, res, next) =>
+    res.status(400).json({ error })) as ErrorRequestHandler
 );
