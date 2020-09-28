@@ -1,6 +1,5 @@
 import { RequestHandler, Response } from 'express';
-
-import { Schedules, PushSubscriptions, Users } from '../../models';
+import { PushSubscriptions, Schedules, Users } from '../../models';
 import { removeFutureNotifications } from '../../notifications';
 
 const patchSchedule: RequestHandler = async (req, res): Promise<Response> => {
@@ -22,26 +21,22 @@ const patchSchedule: RequestHandler = async (req, res): Promise<Response> => {
     await schedule.setUser(req.user);
   }
 
-  if (
-    req.body.push
-    && req.body.push.endpoint
-  ) {
+  if (req.body.push && req.body.push.endpoint) {
     const pushSubscription = await PushSubscriptions.findOne({
       where: { endpoint: req.body.push.endpoint },
     });
 
     if (!pushSubscription) {
-      return res.status(404).send({ error: 'Push subscription does not exist' });
+      return res
+        .status(404)
+        .send({ error: 'Push subscription does not exist' });
     }
 
-    await schedule.addPushSubscription(
-      pushSubscription,
-      {
-        through: {
-          enabled: req.body.schedule.enabled,
-        },
+    await schedule.addPushSubscription(pushSubscription, {
+      through: {
+        enabled: req.body.schedule.enabled,
       },
-    );
+    });
     schedule.schedule_subscriptions = { enabled: req.body.schedule.enabled };
   }
 

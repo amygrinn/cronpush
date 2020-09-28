@@ -1,8 +1,10 @@
 import { RequestHandler, Response } from 'express';
-
 import { PushSubscriptions, Users } from '../../models';
 
-const getPushSubscription: RequestHandler = async (req, res): Promise<Response> => {
+const getPushSubscription: RequestHandler = async (
+  req,
+  res
+): Promise<Response> => {
   if (!req.query.endpoint) {
     return res.status(400).json({ error: 'Bad Request' });
   }

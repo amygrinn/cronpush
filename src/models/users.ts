@@ -2,12 +2,12 @@ import * as Sequelize from 'sequelize';
 import type { PushSubscriptions } from './push-subscriptions';
 
 export interface User {
-  id?: string
-  username: string
-  password: string
-  token?: string
-  createdAt?: string
-  updatedAt?: string
+  id?: string;
+  username: string;
+  password: string;
+  token?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export class Users extends Sequelize.Model {
@@ -21,7 +21,9 @@ export class Users extends Sequelize.Model {
 
   public toJSON!: () => User;
 
-  public getPushSubscriptions!: (options?: Sequelize.FindOptions) => Promise<PushSubscriptions[]>;
+  public getPushSubscriptions!: (
+    options?: Sequelize.FindOptions
+  ) => Promise<PushSubscriptions[]>;
 
   public sanitized() {
     return {

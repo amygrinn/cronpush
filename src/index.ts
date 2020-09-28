@@ -1,5 +1,5 @@
-import './environment';
 import app from './app';
+import './environment';
 import { initSequelize } from './models';
 import startNotifications from './notifications';
 

@@ -8,7 +8,8 @@ const defaultEnv = {
   MYSQL_PASSWORD: 'password',
   MYSQL_DB: 'cron-push',
   MYSQL_TEST_DB: 'cron-push-test',
-  VAPID_PUBLIC_KEY: 'BKzhfJrg1uY9Tn1rMx3OLRx7Bq4khJs1VRJxSNhFRGTdtLk0p4oVLRJvRoI-HjmV43uPPSB9vZjlHWNN1WAelOg',
+  VAPID_PUBLIC_KEY:
+    'BKzhfJrg1uY9Tn1rMx3OLRx7Bq4khJs1VRJxSNhFRGTdtLk0p4oVLRJvRoI-HjmV43uPPSB9vZjlHWNN1WAelOg',
   VAPID_PRIVATE_KEY: 'FxnKvASKejfrVOZTx-SSJVXUnKUInsu4sM19kU-VDNY',
 };
 

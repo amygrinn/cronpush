@@ -1,7 +1,6 @@
 import * as Sequelize from 'sequelize';
-
-import { Users } from './users';
 import { ScheduleSubscriptions } from './schedules';
+import { Users } from './users';
 
 export class Notifications extends Sequelize.Model {
   public id!: string;
@@ -43,7 +42,12 @@ const notificationsDefinition: Sequelize.ModelAttributes = {
 };
 
 export default (sequelize: Sequelize.Sequelize) => {
-  Notifications.init(notificationsDefinition, { sequelize, modelName: 'notifications' });
-  Notifications.belongsTo(ScheduleSubscriptions, { as: 'scheduleSubscription' });
+  Notifications.init(notificationsDefinition, {
+    sequelize,
+    modelName: 'notifications',
+  });
+  Notifications.belongsTo(ScheduleSubscriptions, {
+    as: 'scheduleSubscription',
+  });
   ScheduleSubscriptions.hasMany(Notifications);
 };

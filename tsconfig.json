@@ -11,21 +11,10 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "types": [
-      "node",
-      "mocha"
-    ],
-    "lib": [
-      "esnext"
-    ],
-    "typeRoots": [
-      "src/typings"
-    ]
+    "types": ["node", "mocha"],
+    "lib": ["esnext"],
+    "typeRoots": ["src/typings"]
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

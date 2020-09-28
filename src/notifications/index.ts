@@ -1,6 +1,6 @@
 import createNotifications from './create-notifications';
-import sendNotifications from './send-notifications';
 import removeFutureNotifications from './remove-future-notifications';
+import sendNotifications from './send-notifications';
 
 export { removeFutureNotifications };
 

@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express';
-
 import { PushSubscriptions, Schedules } from '../../models';
 
 const getSchedules: RequestHandler = async (req, res) => {
@@ -18,18 +17,21 @@ const getSchedules: RequestHandler = async (req, res) => {
   const schedules = await pushSubscription.getSchedules();
 
   if (req.user) {
-    const pushSubscriptions: PushSubscriptions[] = (await req.user.getPushSubscriptions())
-      .filter((sub) => !sub.equals(pushSubscription));
+    const pushSubscriptions: PushSubscriptions[] = (
+      await req.user.getPushSubscriptions()
+    ).filter((sub) => !sub.equals(pushSubscription));
 
-    const disabledSchedules = ([] as Schedules[]).concat(...await Promise.all(
-      pushSubscriptions.map((sub) => sub.getSchedules()),
-    ));
+    const disabledSchedules = ([] as Schedules[]).concat(
+      ...(await Promise.all(pushSubscriptions.map((sub) => sub.getSchedules())))
+    );
 
-    schedules.push(...disabledSchedules.map((s) => {
-      // eslint-disable-next-line no-param-reassign
-      s.schedule_subscriptions = { enabled: false };
-      return s;
-    }));
+    schedules.push(
+      ...disabledSchedules.map((s) => {
+        // eslint-disable-next-line no-param-reassign
+        s.schedule_subscriptions = { enabled: false };
+        return s;
+      })
+    );
   }
 
   return res.json({ schedules: schedules.map((s) => s.sanitized()) });

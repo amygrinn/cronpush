@@ -1,14 +1,12 @@
-import * as Sequelize from 'sequelize';
 import cronParser from 'cron-parser';
-
-import dateToMySQL from '../util';
-
+import * as Sequelize from 'sequelize';
 import {
   Notifications,
-  ScheduleSubscriptions,
   PushSubscriptions,
   Schedules,
+  ScheduleSubscriptions,
 } from '../models';
+import dateToMySQL from '../util';
 
 export default async (now: Date) => {
   let notificationsToCreate = await ScheduleSubscriptions.findAll({
@@ -33,34 +31,40 @@ export default async (now: Date) => {
     where: { enabled: true },
   });
 
-  notificationsToCreate = notificationsToCreate.filter((n) => n!.notifications!.length < 1);
+  notificationsToCreate = notificationsToCreate.filter(
+    (n) => n!.notifications!.length < 1
+  );
 
-  await Promise.all(notificationsToCreate.map(async (n) => {
-    now.setSeconds(-1);
-    const date = cronParser.parseExpression(
-      n.schedule!.cronExpression,
-      {
-        tz: n.pushSubscription!.timeZone,
-        currentDate: now,
-      },
-    ).next().toDate();
+  await Promise.all(
+    notificationsToCreate.map(async (n) => {
+      now.setSeconds(-1);
+      const date = cronParser
+        .parseExpression(n.schedule!.cronExpression, {
+          tz: n.pushSubscription!.timeZone,
+          currentDate: now,
+        })
+        .next()
+        .toDate();
 
-    const notificationExists = await Notifications.findOne({
-      include: [{
-        model: ScheduleSubscriptions,
-        as: 'scheduleSubscription',
+      const notificationExists = await Notifications.findOne({
+        include: [
+          {
+            model: ScheduleSubscriptions,
+            as: 'scheduleSubscription',
+            where: {
+              scheduleId: n.scheduleId,
+            },
+          },
+        ],
         where: {
-          scheduleId: n.scheduleId,
+          date: dateToMySQL(date),
         },
-      }],
-      where: {
-        date: dateToMySQL(date),
-      },
-    });
+      });
 
-    if (!notificationExists) {
-      const notification = await Notifications.create({ sent: false, date });
-      await notification.setScheduleSubscription(n);
-    }
-  }));
+      if (!notificationExists) {
+        const notification = await Notifications.create({ sent: false, date });
+        await notification.setScheduleSubscription(n);
+      }
+    })
+  );
 };

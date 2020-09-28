@@ -1,9 +1,8 @@
 import { Router } from 'express';
-
-import getSchedules from './get-schedules';
 import createSchedule from './create-schedule';
-import patchSchedule from './patch-schedule';
 import deleteSchedule from './delete-schedule';
+import getSchedules from './get-schedules';
+import patchSchedule from './patch-schedule';
 
 const schedulesRouter = Router();
 

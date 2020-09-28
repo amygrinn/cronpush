@@ -1,0 +1,3 @@
+node_modules
+bin
+**/*.spec.ts

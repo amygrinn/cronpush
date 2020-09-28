@@ -1,8 +1,7 @@
 import * as Sequelize from 'sequelize';
-
+import type { Notifications } from './notifications';
 import { PushSubscriptions } from './push-subscriptions';
 import { Users } from './users';
-import type { Notifications } from './notifications';
 
 export class ScheduleSubscriptions extends Sequelize.Model {
   public enabled!: boolean;
@@ -37,6 +36,19 @@ export class Schedules extends Sequelize.Model {
 
   public schedule_subscriptions!: { enabled: boolean } | undefined;
 
+  public getUser!: () => Promise<Users | undefined>;
+
+  public setUser!: (user: Users) => Promise<void>;
+
+  public getPushSubscriptions!: (
+    options?: Sequelize.FindOptions
+  ) => Promise<PushSubscriptions[]>;
+
+  public addPushSubscription!: (
+    pushSubscription: PushSubscriptions,
+    options?: Object
+  ) => Promise<void>;
+
   public sanitized() {
     return {
       id: this.id,
@@ -44,21 +56,12 @@ export class Schedules extends Sequelize.Model {
       message: this.message,
       icon: this.icon,
       cronExpression: this.cronExpression,
-      enabled: this.schedule_subscriptions ? this.schedule_subscriptions.enabled : false,
+      enabled: this.schedule_subscriptions
+        ? this.schedule_subscriptions.enabled
+        : false,
       user: this.user ? this.user.id : undefined,
     };
   }
-
-  public getUser!: () => Promise<Users | void>;
-
-  public setUser!: (user: Users) => Promise<void>;
-
-  public getPushSubscriptions!: (options?: Sequelize.FindOptions) => Promise<PushSubscriptions[]>;
-
-  public addPushSubscription!: (
-    pushSubscription: PushSubscriptions,
-    options?: Object
-  ) => Promise<void>;
 }
 
 const schedulesDefinition = {
@@ -104,15 +107,20 @@ const scheduleSubscriptionsDefinition = {
 export default (sequelize: Sequelize.Sequelize) => {
   Schedules.init(schedulesDefinition, { sequelize, modelName: 'schedules' });
   Schedules.belongsTo(Users, { foreignKey: 'userId' });
-  ScheduleSubscriptions.init(scheduleSubscriptionsDefinition, { sequelize, modelName: 'schedule_subscriptions' });
-  Schedules.belongsToMany(
-    PushSubscriptions,
-    {
-      through: ScheduleSubscriptions,
-      as: { singular: 'pushSubscription', plural: 'pushSubscriptions' },
-    },
-  );
+  ScheduleSubscriptions.init(scheduleSubscriptionsDefinition, {
+    sequelize,
+    modelName: 'schedule_subscriptions',
+  });
+  Schedules.belongsToMany(PushSubscriptions, {
+    through: ScheduleSubscriptions,
+    as: { singular: 'pushSubscription', plural: 'pushSubscriptions' },
+  });
   ScheduleSubscriptions.belongsTo(Schedules);
-  ScheduleSubscriptions.belongsTo(PushSubscriptions, { foreignKey: 'pushSubscriptionId', as: 'pushSubscription' });
-  PushSubscriptions.belongsToMany(Schedules, { through: ScheduleSubscriptions });
+  ScheduleSubscriptions.belongsTo(PushSubscriptions, {
+    foreignKey: 'pushSubscriptionId',
+    as: 'pushSubscription',
+  });
+  PushSubscriptions.belongsToMany(Schedules, {
+    through: ScheduleSubscriptions,
+  });
 };

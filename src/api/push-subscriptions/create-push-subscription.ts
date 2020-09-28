@@ -1,16 +1,18 @@
-/// <reference path='../../typings/express.d.ts' />
+// / <reference path='../../typings/express.d.ts' />
 
 import { RequestHandler, Response } from 'express';
-
 import { PushSubscriptions, Users } from '../../models';
 
-const createPushSubscription: RequestHandler = async (req, res): Promise<Response> => {
+const createPushSubscription: RequestHandler = async (
+  req,
+  res
+): Promise<Response> => {
   if (
-    !req.body.endpoint
-    || !req.body.keys
-    || !req.body.keys.p256dh
-    || !req.body.keys.auth
-    || !req.body.timeZone
+    !req.body.endpoint ||
+    !req.body.keys ||
+    !req.body.keys.p256dh ||
+    !req.body.keys.auth ||
+    !req.body.timeZone
   ) {
     return res.status(400).json({ error: 'Bad request' });
   }
@@ -29,7 +31,9 @@ const createPushSubscription: RequestHandler = async (req, res): Promise<Respons
     timeZone: req.body.timeZone,
   };
 
-  pushSubscription = await PushSubscriptions.create(payload, { include: [Users] });
+  pushSubscription = await PushSubscriptions.create(payload, {
+    include: [Users],
+  });
 
   if (req.user) {
     pushSubscription.setUser(req.user);

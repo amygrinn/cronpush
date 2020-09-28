@@ -1,15 +1,16 @@
 import * as Sequelize from 'sequelize';
-
 import { Notifications, ScheduleSubscriptions } from '../models';
 import dateToMySQL from '../util';
 
 export default async (scheduleId: string) => {
   const notifications = await Notifications.findAll({
-    include: [{
-      model: ScheduleSubscriptions,
-      as: 'scheduleSubscription',
-      where: { scheduleId },
-    }],
+    include: [
+      {
+        model: ScheduleSubscriptions,
+        as: 'scheduleSubscription',
+        where: { scheduleId },
+      },
+    ],
     where: {
       sent: false,
       date: {

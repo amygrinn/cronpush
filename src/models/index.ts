@@ -1,8 +1,7 @@
 import initSequelize from './init-sequelize';
 
-export { Users } from './users';
+export { Notifications } from './notifications';
 export { PushSubscriptions } from './push-subscriptions';
 export { Schedules, ScheduleSubscriptions } from './schedules';
-export { Notifications } from './notifications';
-
+export { Users } from './users';
 export { initSequelize };

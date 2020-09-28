@@ -3,7 +3,6 @@ stages:
   - deploy
 
 build:
-
   stage: build
 
   image: node:12

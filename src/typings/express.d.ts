@@ -1,8 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import { Users } from '../models';
 
 declare global {
   namespace Express {
-    interface User extends Users { }
+    interface User extends Users {}
   }
 }
