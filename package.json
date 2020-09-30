@@ -19,7 +19,7 @@
     "quality": "npm run quality:fix",
     "serve": "node --require dotenv/config --enable-source-maps bin/cron-push",
     "test": "cross-env NODE_ENV=test mocha",
-    "test:debug": "npm test -- --inspect --inspect-publish-uid=http --inspect-brk"
+    "test:debug": "npm test -- --inspect --inspect-publish-uid=http"
   },
   "mocha": {
     "timeout": 5000,
@@ -60,13 +60,15 @@
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
     "@types/sequelize": "^4.28.8",
+    "@types/sinon": "^9.0.6",
+    "@types/sinon-chai": "^3.2.5",
     "@types/supertest": "^2.0.10",
     "@types/web-push": "^3.3.0",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
-    "@typescript-eslint/parser": "^4.2.0",
+    "@typescript-eslint/parser": "^4.3.0",
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
-    "eslint": "^7.9.0",
+    "eslint": "^7.10.0",
     "eslint-config-alloy": "^3.8.0",
     "eslint-plugin-chai-friendly": "^0.6.0",
     "eslint-watch": "^7.0.0",
@@ -75,6 +77,8 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.1.2",
     "prettier-plugin-organize-imports": "^1.1.1",
+    "sinon": "^9.0.3",
+    "sinon-chai": "^3.5.0",
     "typescript": "^4.0.3"
   }
 }

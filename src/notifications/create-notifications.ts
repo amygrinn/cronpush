@@ -8,36 +8,38 @@ import {
 } from '../models';
 import dateToMySQL from '../util';
 
-export default async (now: Date) => {
-  now.setSeconds(-1);
+export default async (now = new Date()) => {
+  const nextMinute = new Date(now.valueOf());
+  nextMinute.setSeconds(60, 0);
 
   let notificationsToCreate = await ScheduleSubscriptions.findAll({
     include: [
-      Schedules,
+      Schedules, // JOIN
       {
+        // INNER JOIN enabled push subscriptions
         model: PushSubscriptions,
         as: 'pushSubscription',
         where: { enabled: true },
       },
       {
+        // JOIN future notifications
         model: Notifications,
         where: {
-          sent: false,
           date: {
-            [Sequelize.Op.gte]: dateToMySQL(now),
+            [Sequelize.Op.gte]: dateToMySQL(nextMinute),
           },
         },
         required: false,
       },
     ],
-    where: { enabled: true },
+    where: {
+      enabled: true,
+    },
   });
 
-  notificationsToCreate = notificationsToCreate.filter(
-    (n) => n!.notifications!.length < 1
-  );
+  console.log('notificationz: ', notificationsToCreate.length);
 
-  await Promise.all(
+  return Promise.all(
     notificationsToCreate.map(async (n) => {
       const date = cronParser
         .parseExpression(n.schedule!.cronExpression, {
@@ -47,26 +49,8 @@ export default async (now: Date) => {
         .next()
         .toDate();
 
-      const notificationExists = await Notifications.findOne({
-        include: [
-          {
-            model: ScheduleSubscriptions,
-            as: 'scheduleSubscription',
-            where: {
-              scheduleId: n.scheduleId,
-            },
-            required: true,
-          },
-        ],
-        where: {
-          date: dateToMySQL(date),
-        },
-      });
-
-      if (!notificationExists) {
-        const notification = await Notifications.create({ sent: false, date });
-        await notification.setScheduleSubscription(n);
-      }
+      const notification = await Notifications.create({ sent: false, date });
+      return notification.setScheduleSubscription(n);
     })
   );
 };

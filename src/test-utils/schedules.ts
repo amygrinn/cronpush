@@ -3,24 +3,23 @@ import app from '../app';
 import * as PushSubscriptions from './push-subscriptions';
 
 export const init = async (token: string) => {
-  const ids: string[] = [];
-  await request(app)
+  const allScheduleId = await request(app)
     .post('/schedules')
     .send({
       push: {
         endpoint: PushSubscriptions.ENDPOINT,
       },
       schedule: {
-        cronExpression: '* * * * * *',
+        cronExpression: '* * * * *',
         title: 'Title',
         message: 'message',
         icon: '/icons/star.png',
         enabled: true,
       },
     })
-    .then((response) => ids.push(response.body.id));
+    .then((response) => response.body.id);
 
-  await request(app)
+  const evenScheduleId = await request(app)
     .post('/schedules')
     .set('Authorization', `Bearer ${token}`)
     .send({
@@ -28,16 +27,16 @@ export const init = async (token: string) => {
         endpoint: PushSubscriptions.USER_ENDPOINT,
       },
       schedule: {
-        cronExpression: '* * * * * *',
+        cronExpression: '*/2 * * * *',
         title: 'Title',
         message: 'message',
         icon: '/icons/star.png',
         enabled: true,
       },
     })
-    .then((response) => ids.push(response.body.id));
+    .then((response) => response.body.id);
 
-  return ids;
+  return [allScheduleId, evenScheduleId];
 };
 
 export default init;
