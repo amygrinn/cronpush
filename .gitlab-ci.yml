@@ -11,9 +11,18 @@ build:
     - mysql:8
 
   variables:
-    MYSQL_DATABASE: cron-push-test
+    # Gitlab mysql service setup
+    MYSQL_DATABASE: cronpush_test
     MYSQL_ROOT_PASSWORD: password
+
+    # Cronpush setup
+    JWT_SECRET: shhhh
+
     MYSQL_HOST: mysql
+    MYSQL_PORT: 3306
+    MYSQL_USER: root
+    MYSQL_PASSWORD: password
+    MYSQL_TEST_DB: cronpush_test
 
   cache:
     key: ${CI_COMMIT_REF_SLUG}-${CI_JOB_STAGE}
