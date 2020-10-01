@@ -1,13 +1,13 @@
 import request from 'supertest';
 import app from '../../../app';
-import { initSequelize } from '../../../models';
+import { init } from '../../../models';
 import { Auth, PushSubscriptions, Schedules } from '../../../test-utils';
 
 describe('Delete schedule', () => {
   let token: string;
   let scheduleIds: string[];
   before(() =>
-    initSequelize()
+    init()
       .then(Auth.init)
       .then((t) => {
         token = t;

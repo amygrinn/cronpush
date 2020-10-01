@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../../../app';
-import { initSequelize } from '../../../models';
+import { init } from '../../../models';
 import { Auth } from '../../../test-utils';
 
 describe('Verify by JWT', () => {
   let token: string;
   before(() =>
-    initSequelize()
+    init()
       .then(Auth.init)
       .then((t) => {
         token = t;

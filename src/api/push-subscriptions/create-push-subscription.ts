@@ -1,7 +1,5 @@
-// / <reference path='../../typings/express.d.ts' />
-
 import { RequestHandler, Response } from 'express';
-import { PushSubscriptions, Users } from '../../models';
+import { pushSubscriptions } from '../../models';
 
 const createPushSubscription: RequestHandler = async (
   req,
@@ -17,29 +15,25 @@ const createPushSubscription: RequestHandler = async (
     return res.status(400).json({ error: 'Bad request' });
   }
 
-  let pushSubscription = await PushSubscriptions.findOne({
-    where: { endpoint: req.body.endpoint },
-  });
-  if (pushSubscription) {
+  const pushSubscription: pushSubscriptions.PushSubscription = {
+    endpoint: req.body.endpoint,
+    keys: {
+      p256dh: req.body.keys.p256dh,
+      auth: req.body.keys.auth,
+    },
+    timeZone: req.body.timeZone,
+    userId: req.user ? req.user.id : undefined,
+    enabled: req.body.enabled !== false,
+  };
+
+  // let pushSubscription = await pushSubscriptions.find(req.body.endpoint);
+  if (await pushSubscriptions.exists(req.body.endpoint)) {
     return res.status(400).json({ error: 'Push subscription already exists' });
   }
 
-  const payload = {
-    endpoint: req.body.endpoint,
-    p256dh: req.body.keys.p256dh,
-    auth: req.body.keys.auth,
-    timeZone: req.body.timeZone,
-  };
+  await pushSubscriptions.create(pushSubscription);
 
-  pushSubscription = await PushSubscriptions.create(payload, {
-    include: [Users],
-  });
-
-  if (req.user) {
-    pushSubscription.setUser(req.user);
-  }
-
-  return res.json(pushSubscription.sanitized());
+  return res.json(pushSubscriptions.sanitize(pushSubscription));
 };
 
 export default createPushSubscription;

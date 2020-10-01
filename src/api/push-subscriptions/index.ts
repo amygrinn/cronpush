@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import createPushSubscriptionHandler from './create-push-subscription';
+import createPushSubscription from './create-push-subscription';
 import getPushSubscription from './get-push-subscription';
 import patchPushSubscription from './patch-push-subscription';
 
@@ -10,7 +10,7 @@ pushRouter.get('/vapid-public-key', (req, res) => {
   return res.send(process.env.VAPID_PUBLIC_KEY as string);
 });
 pushRouter.get('/', getPushSubscription);
-pushRouter.post('/', createPushSubscriptionHandler);
+pushRouter.post('/', createPushSubscription);
 pushRouter.patch('/', patchPushSubscription);
 
 export default pushRouter;

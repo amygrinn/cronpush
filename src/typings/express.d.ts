@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import { Users } from '../models';
+import { User as MyUser } from '../models/users';
 
 declare global {
   namespace Express {
-    interface User extends Users {}
+    interface User extends MyUser {}
   }
 }

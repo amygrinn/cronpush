@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../../../app';
-import { initSequelize } from '../../../models';
+import { init } from '../../../models';
 import { Auth } from '../../../test-utils';
 
 describe('Login Local', () => {
-  before(() => initSequelize().then(Auth.init));
+  before(() => init().then(Auth.init));
 
   it('Logs in to test account', () =>
     request(app)

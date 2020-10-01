@@ -1,5 +1,5 @@
 import { RequestHandler, Response } from 'express';
-import { PushSubscriptions, Users } from '../../models';
+import { pushSubscriptions } from '../../models';
 
 const patchPushSubscription: RequestHandler = async (
   req,
@@ -9,29 +9,32 @@ const patchPushSubscription: RequestHandler = async (
     return res.status(400).json({ error: 'Bad Request' });
   }
 
-  const pushSubscription = await PushSubscriptions.findOne({
-    where: { endpoint: req.body.endpoint },
-    include: [Users],
-  });
+  const pushSubscription = await pushSubscriptions.find(req.body.endpoint);
 
   if (!pushSubscription) {
     return res.status(404).json({ error: 'Push subscription not found' });
   }
 
-  if (
-    !pushSubscription.user ||
-    (req.user && pushSubscription.user.equals(req.user))
-  ) {
-    await pushSubscription.update(req.body);
-  } else if (req.body.enabled !== undefined) {
-    await pushSubscription.update({ enabled: req.body.enabled });
+  if (!pushSubscription.userId && req.user) {
+    pushSubscription.userId = req.user.id;
   }
 
-  if (req.user) {
-    await pushSubscription.setUser(req.user);
+  const authorized =
+    !pushSubscription.userId ||
+    (req.user && req.user.id === pushSubscription.userId);
+
+  if (authorized) {
+    if ('enabled' in req.body) pushSubscription.enabled = req.body.enabled;
+    pushSubscription.timeZone = req.body.timeZone || pushSubscription.timeZone;
+  } else if (req.body.enabled === false) {
+    // Always allow turning off notifications even when signed out
+    pushSubscription.enabled = false;
+  } else {
+    return res.status(403).json({ error: 'Not authorized' });
   }
 
-  return res.json(pushSubscription.sanitized());
+  await pushSubscriptions.update(pushSubscription);
+  return res.json(pushSubscriptions.sanitize(pushSubscription));
 };
 
 export default patchPushSubscription;

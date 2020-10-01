@@ -1,7 +1,22 @@
-import initSequelize from './init-sequelize';
+import * as notifications from './notifications';
+import * as pushSubscriptions from './push-subscriptions';
+import * as scheduleSubscriptions from './schedule-subscriptions';
+import * as schedules from './schedules';
+import * as users from './users';
 
-export { Notifications } from './notifications';
-export { PushSubscriptions } from './push-subscriptions';
-export { Schedules, ScheduleSubscriptions } from './schedules';
-export { Users } from './users';
-export { initSequelize };
+export const init = () =>
+  Promise.all([
+    users.init(),
+    pushSubscriptions.init(),
+    schedules.init(),
+    scheduleSubscriptions.init(),
+    notifications.init(),
+  ]);
+
+export {
+  notifications,
+  pushSubscriptions,
+  schedules,
+  scheduleSubscriptions,
+  users,
+};

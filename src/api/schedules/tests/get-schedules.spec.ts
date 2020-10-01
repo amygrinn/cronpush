@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../../../app';
-import { initSequelize } from '../../../models';
+import { init } from '../../../models';
 import { Auth, PushSubscriptions, Schedules } from '../../../test-utils';
 
 describe('Get schedules', () => {
   let token: string;
   before(() =>
-    initSequelize()
+    init()
       .then(Auth.init)
-      .then((t) => {
+      .then((t: string) => {
         token = t;
       })
       .then(() => PushSubscriptions.init(token))

@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../../../app';
-import { initSequelize } from '../../../models';
+import { init } from '../../../models';
 import { Auth, PushSubscriptions } from '../../../test-utils';
 
 describe('Create schedule', () => {
   let token: string;
   before(() =>
-    initSequelize()
+    init()
       .then(Auth.init)
       .then((t) => {
         token = t;
@@ -27,7 +27,6 @@ describe('Create schedule', () => {
           title: 'Title',
           message: 'message',
           icon: '/icons/star.png',
-          enabled: true,
         },
       })
       .expect(200)
@@ -53,7 +52,6 @@ describe('Create schedule', () => {
           title: 'Title',
           message: 'message',
           icon: '/icons/star.png',
-          enabled: true,
         },
       })
       .expect(200)

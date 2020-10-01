@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../../../app';
-import { initSequelize } from '../../../models';
+import { init } from '../../../models';
 import { Auth, PushSubscriptions, Schedules } from '../../../test-utils';
 
 describe('Patch a schedule', () => {
   let token: string;
   let scheduleIds: string[];
   before(() =>
-    initSequelize()
+    init()
       .then(Auth.init)
       .then((t) => {
         token = t;
@@ -45,11 +45,25 @@ describe('Patch a schedule', () => {
           cronExpression: '*/10 * * * * *',
         },
       })
-      .expect(200)
-      .then((response) => {
-        expect(response.body.message).to.not.equal('new message');
-        expect(response.body.cronExpression).to.not.equal('*/10 * * * * *');
-      }));
+      .expect(403));
+
+  it('Adds a push subscription to schedule', () =>
+    request(app)
+      .patch(`/schedules/${scheduleIds[0]}`)
+      .send({
+        push: {
+          endpoint: PushSubscriptions.USER_ENDPOINT,
+        },
+      })
+      .then(() =>
+        request(app)
+          .get('/schedules')
+          .query({ endpoint: PushSubscriptions.USER_ENDPOINT })
+          .expect(200)
+          .then((response) => {
+            expect(response.body.schedules).to.have.length(2);
+          })
+      ));
 
   it('Updates a schedule with user with token', () =>
     request(app)
@@ -67,35 +81,14 @@ describe('Patch a schedule', () => {
         expect(response.body.cronExpression).to.equal('*/10 * * * * *');
       }));
 
-  it('Adds a push subscription to schedule', () =>
-    request(app)
-      .patch(`/schedules/${scheduleIds[0]}`)
-      .send({
-        push: {
-          endpoint: PushSubscriptions.USER_ENDPOINT,
-        },
-        schedule: {
-          enabled: true,
-        },
-      })
-      .expect(200)
-      .then(() =>
-        request(app)
-          .get('/schedules')
-          .query({ endpoint: PushSubscriptions.USER_ENDPOINT })
-          .expect(200)
-          .then((response) => {
-            expect(response.body.schedules).to.have.length(2);
-          })
-      ));
-
   it('Disables a schedule without a user', () =>
     request(app)
       .patch(`/schedules/${scheduleIds[0]}`)
       .send({
-        schedule: {
-          enabled: false,
+        push: {
+          endpoint: PushSubscriptions.ENDPOINT,
         },
+        enabled: false,
       })
       .expect(200)
       .then((response) => {
@@ -106,9 +99,10 @@ describe('Patch a schedule', () => {
     request(app)
       .patch(`/schedules/${scheduleIds[1]}`)
       .send({
-        schedule: {
-          enabled: false,
+        push: {
+          endpoint: PushSubscriptions.USER_ENDPOINT,
         },
+        enabled: false,
       })
       .expect(200)
       .then((response) => {

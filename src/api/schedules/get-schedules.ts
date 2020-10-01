@@ -1,40 +1,23 @@
 import { RequestHandler } from 'express';
-import { PushSubscriptions, Schedules } from '../../models';
+import { pushSubscriptions, scheduleSubscriptions } from '../../models';
 
 const getSchedules: RequestHandler = async (req, res) => {
-  if (!req.query.endpoint) {
+  if (!req.query.endpoint || typeof req.query.endpoint !== 'string') {
     return res.status(400).json({ error: 'Bad Request' });
   }
 
-  const pushSubscription = await PushSubscriptions.findOne({
-    where: { endpoint: req.query.endpoint as string },
-  });
+  const pushSubscription = await pushSubscriptions.find(req.query.endpoint);
 
   if (!pushSubscription) {
     return res.status(404).json({ error: 'Push Subscription does not exist' });
   }
 
-  const schedules = await pushSubscription.getSchedules();
+  const schedules = await scheduleSubscriptions.findSchedules({
+    endpoint: req.query.endpoint,
+    userId: req.user ? req.user.id : undefined,
+  });
 
-  if (req.user) {
-    const pushSubscriptions: PushSubscriptions[] = (
-      await req.user.getPushSubscriptions()
-    ).filter((sub) => !sub.equals(pushSubscription));
-
-    const disabledSchedules = ([] as Schedules[]).concat(
-      ...(await Promise.all(pushSubscriptions.map((sub) => sub.getSchedules())))
-    );
-
-    schedules.push(
-      ...disabledSchedules.map((s) => {
-        // eslint-disable-next-line no-param-reassign
-        s.schedule_subscriptions = { enabled: false };
-        return s;
-      })
-    );
-  }
-
-  return res.json({ schedules: schedules.map((s) => s.sanitized()) });
+  return res.json({ schedules });
 };
 
 export default getSchedules;

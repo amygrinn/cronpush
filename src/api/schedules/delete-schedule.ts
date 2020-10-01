@@ -1,21 +1,18 @@
 import { RequestHandler } from 'express';
-import { Schedules, Users } from '../../models';
+import { schedules } from '../../models';
 
 const deleteSchedule: RequestHandler = async (req, res) => {
-  const schedule = await Schedules.findOne({
-    where: { id: req.params.scheduleId },
-    include: [Users],
-  });
+  const schedule = await schedules.find(req.params.scheduleId);
 
   if (!schedule) {
     return res.status(404).json({ error: 'Schedule does not exist' });
   }
 
-  if (schedule.user && (!req.user || !schedule.user.equals(req.user))) {
+  if (schedule.userId && (!req.user || req.user.id !== schedule.userId)) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  await schedule.destroy();
+  await schedules.destroy(req.params.scheduleId);
 
   return res.sendStatus(200);
 };

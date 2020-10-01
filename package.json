@@ -17,16 +17,15 @@
     "quality:check": "run-s --print-label --silent lint:check prettier:check",
     "quality:fix": "run-p --print-label --silent lint:fix prettier:fix",
     "quality": "npm run quality:fix",
-    "serve": "node --require dotenv/config --enable-source-maps bin/cron-push",
+    "serve": "node --require dotenv/config --enable-source-maps bin",
     "test": "cross-env NODE_ENV=test mocha",
-    "test:debug": "npm test -- --inspect --inspect-publish-uid=http"
+    "test:debug": "npm test -- --inspect --inspect-publish-uid=http --inspect-brk"
   },
   "mocha": {
     "timeout": 5000,
     "exit": true,
     "require": [
-      "dotenv/config",
-      "bin/cron-push/environment"
+      "dotenv/config"
     ],
     "spec": "bin/**/*.spec.js"
   },
@@ -39,14 +38,14 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^8.1.3",
+    "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "sequelize": "^6.3.5",
-    "sequelize-noupdate-attributes": "^1.0.0",
     "supertest": "^4.0.2",
     "ts-node": "^9.0.0",
+    "uuid": "^8.3.0",
     "web-push": "^3.4.3"
   },
   "devDependencies": {
@@ -56,13 +55,15 @@
     "@types/jsonwebtoken": "^8.3.5",
     "@types/luxon": "^1.25.0",
     "@types/mocha": "^5.2.4",
+    "@types/mysql": "^2.15.15",
     "@types/passport": "^1.0.2",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
-    "@types/sequelize": "^4.28.8",
+    "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^9.0.6",
     "@types/sinon-chai": "^3.2.5",
     "@types/supertest": "^2.0.10",
+    "@types/uuid": "^8.3.0",
     "@types/web-push": "^3.3.0",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^4.3.0",
@@ -77,6 +78,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.1.2",
     "prettier-plugin-organize-imports": "^1.1.1",
+    "proxyquire": "^2.1.3",
     "sinon": "^9.0.3",
     "sinon-chai": "^3.5.0",
     "typescript": "^4.0.3"

@@ -1,5 +1,9 @@
 import { RequestHandler } from 'express';
-import { PushSubscriptions, Schedules } from '../../models';
+import {
+  pushSubscriptions,
+  schedules,
+  scheduleSubscriptions,
+} from '../../models';
 
 const createSchedule: RequestHandler = async (req, res) => {
   if (
@@ -7,38 +11,32 @@ const createSchedule: RequestHandler = async (req, res) => {
     !req.body.push.endpoint ||
     !req.body.schedule ||
     !req.body.schedule.cronExpression ||
-    req.body.schedule.enabled === undefined
+    !req.body.schedule.title
   ) {
     return res.status(400).json({ error: 'Bad Request' });
   }
 
-  if (Object.prototype.hasOwnProperty.call(req.body.schedule, 'id')) {
-    delete req.body.schedule.id;
-  }
-
-  const pushSubscription = await PushSubscriptions.findOne({
-    where: { endpoint: req.body.push.endpoint },
-  });
-
-  if (!pushSubscription) {
+  if (!(await pushSubscriptions.exists(req.body.push.endpoint))) {
     return res.status(404).json({ error: 'Push subscription does not exist' });
   }
 
-  const schedule = await Schedules.create(req.body.schedule);
-
-  schedule.addPushSubscription(pushSubscription, {
-    through: {
-      enabled: req.body.schedule.enabled,
-    },
+  const schedule = await schedules.create({
+    cronExpression: req.body.schedule.cronExpression,
+    title: req.body.schedule.title,
+    icon: req.body.schedule.icon,
+    message: req.body.schedule.message,
+    userId: req.user && req.user.id,
   });
 
-  schedule.schedule_subscriptions = { enabled: req.body.schedule.enabled };
+  schedule.enabled = req.body.enabled !== false;
 
-  if (req.user) {
-    schedule.setUser(req.user);
-  }
+  await scheduleSubscriptions.create(
+    req.body.push.endpoint,
+    schedule.id,
+    schedule.enabled
+  );
 
-  return res.json(schedule.sanitized());
+  return res.json(schedule);
 };
 
 export default createSchedule;

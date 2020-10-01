@@ -1,3 +1,2 @@
-# create databases
-CREATE DATABASE IF NOT EXISTS `cron-push`;
-CREATE DATABASE IF NOT EXISTS `cron-push-test`;
+CREATE DATABASE IF NOT EXISTS cronpush;
+CREATE DATABASE IF NOT EXISTS cronpush_test;

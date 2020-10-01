@@ -7,7 +7,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "allowJs": true,
-    "outDir": "bin/cron-push",
+    "outDir": "bin",
     "noImplicitAny": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -15,6 +15,6 @@
     "lib": ["esnext"],
     "typeRoots": ["src/typings"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/notifications/tests/temp"],
   "exclude": ["node_modules"]
 }

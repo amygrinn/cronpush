@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../../../app';
-import { initSequelize } from '../../../models';
+import { init } from '../../../models';
 
 describe('Get vapid public key', () => {
-  before(initSequelize);
+  before(init);
 
   it('Gets the current key', () => {
     process.env.VAPID_PUBLIC_KEY = 'test key!';

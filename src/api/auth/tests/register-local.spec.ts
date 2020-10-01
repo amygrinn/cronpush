@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../../../app';
-import { initSequelize } from '../../../models';
+import { init } from '../../../models';
 
 describe('Register Local', () => {
-  before(initSequelize);
+  before(init);
 
   it('Creates an account', () =>
     request(app)

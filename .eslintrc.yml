@@ -5,6 +5,7 @@ extends:
 env:
   mocha: true
   jquery: true
+  node: true
 globals:
   expect: true
 rules:
