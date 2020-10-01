@@ -8,7 +8,7 @@ build:
   image: node:12
 
   services:
-    - mysql:8
+    - mysql:5
 
   variables:
     # Gitlab mysql service setup
