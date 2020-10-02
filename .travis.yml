@@ -13,7 +13,7 @@ before_deploy:
     -K $encrypted_db2095f63ba3_key
     -iv $encrypted_db2095f63ba3_iv
     -in deploy_rsa.enc
-    -out deploy_rsa
+    -out /tmp/deploy_rsa
     -d
   - eval "$(ssh-agent -s)"
   - chmod 600 /tmp/deploy_rsa
