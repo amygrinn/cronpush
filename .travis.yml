@@ -30,7 +30,7 @@ env:
     - JWT_SECRET=shhh
 
 before_script:
-  - mysql -e 'CREATE DATABASE `$MYSQL_TEST_DB`;'
+  - mysql -e 'CREATE DATABASE `cronpush_test`;'
 
 jobs:
   include:
