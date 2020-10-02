@@ -31,8 +31,8 @@ env:
 
     # Deploy setup
     - HOST=cronpush.tygr.info
-    - USER=cronpush
-    - PROJECT=cronpush
+    - USER=cron-push
+    - PROJECT=cron-push
 
 before_script:
   - mysql -e 'CREATE DATABASE `cronpush_test`;'
