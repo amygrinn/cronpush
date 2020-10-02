@@ -45,7 +45,7 @@ describe('Patch a schedule', () => {
           cronExpression: '*/10 * * * * *',
         },
       })
-      .expect(403));
+      .expect(400));
 
   it('Adds a push subscription to schedule', () =>
     request(app)

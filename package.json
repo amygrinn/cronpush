@@ -18,6 +18,7 @@
     "quality:fix": "run-p --print-label --silent lint:fix prettier:fix",
     "quality": "npm run quality:fix",
     "serve": "node --require dotenv/config --enable-source-maps bin",
+    "serve:debug": "node --inspect --require dotenv/config --enable-source-maps bin",
     "test": "cross-env NODE_ENV=test mocha",
     "test:debug": "npm test -- --inspect --inspect-publish-uid=http --inspect-brk"
   },
