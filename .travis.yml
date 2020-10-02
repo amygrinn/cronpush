@@ -29,13 +29,8 @@ env:
     - MYSQL_TEST_DB=cronpush_test
     - JWT_SECRET=shhh
 
-    # Deploy setup
-    - HOST=cronpush.tygr.info
-    - USER=cron-push
-    - PROJECT=cron-push
-
 before_script:
-  - mysql -e 'CREATE DATABASE `cronpush_test`;'
+  - mysql -e 'CREATE DATABASE `$MYSQL_TEST_DB`;'
 
 jobs:
   include:

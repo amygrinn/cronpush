@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd $PROJECT
+cd cron-push
 npm ci
 npm test
-sudo systemctl restart $PROJECT
+sudo systemctl restart cron-push
