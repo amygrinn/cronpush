@@ -51,8 +51,7 @@ npm run serve
 
 ## Tests
 
-Tests use the database specified by the environment variable MYSQL_TEST_DB, `cron-push-test`
-by default. The database will be cleared completely for each test
+Tests use the database specified by the environment variable MYSQL_TEST_DB . The database will be cleared completely for each test
 
 ### Standalone
 
