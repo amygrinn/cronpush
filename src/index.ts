@@ -1,5 +1,4 @@
 import app from './app';
-import './environment';
 import { init } from './models';
 import startNotifications from './notifications';
 
