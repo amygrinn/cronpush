@@ -22,13 +22,18 @@ export default (now = new Date()) =>
           LEFT JOIN schedules s
             ON s.id = ss.scheduleId
           LEFT JOIN push_subscriptions ps
-            ON ps.id = ss.pushSubscriptionId
+            ON (
+              ps.id = ss.pushSubscriptionId
+              AND ps.enabled
+            )
           LEFT JOIN notifications n
             ON (
               n.scheduleSubscriptionId = ss.id
               AND n.date >= :date
             )
-        WHERE n.id IS NULL
+        WHERE
+          n.id IS NULL
+          AND ss.enabled
       `,
       { date: dateToMySQL(exactMinute) }
     )) as {
