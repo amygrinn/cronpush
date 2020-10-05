@@ -7,7 +7,7 @@ export default (schedule: Schedule) =>
     UPDATE schedules
     SET
       ${schedule.userId ? 'userId = :userId,' : ''}
-      ${schedule.message ? 'message = :title,' : ''}
+      ${schedule.message ? 'message = :message,' : ''}
       ${schedule.icon ? 'icon = :icon,' : ''}
       cronExpression = :cronExpression,
       title = :title

@@ -11,10 +11,10 @@ export default () =>
     await query(`
       CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
         id VARCHAR(255) NOT NULL,
-        userId VARCHAR(255) NOT NULL,
+        userId VARCHAR(255),
         cronExpression VARCHAR(255) NOT NULL,
         title VARCHAR(255) NOT NULL,
-        message VARCHAR(255) NOT NULL,
+        message VARCHAR(255),
         icon VARCHAR(255) NOT NULL,
         createdAt TIMESTAMP NOT NULL,
         updatedAt TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),

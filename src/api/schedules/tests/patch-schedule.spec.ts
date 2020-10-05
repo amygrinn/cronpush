@@ -29,11 +29,16 @@ describe('Patch a schedule', () => {
           message: 'new message',
           cronExpression: '*/10 * * * * *',
         },
+        push: {
+          endpoint: PushSubscriptions.ENDPOINT,
+        },
+        enabled: true,
       })
       .expect(200)
       .then((response) => {
         expect(response.body.message).to.equal('new message');
         expect(response.body.cronExpression).to.equal('*/10 * * * * *');
+        expect(response.body.enabled).to.be.true;
       }));
 
   it('Cannot update schedule with user without token', () =>
@@ -44,8 +49,12 @@ describe('Patch a schedule', () => {
           message: 'new message',
           cronExpression: '*/10 * * * * *',
         },
+        push: {
+          endpoint: PushSubscriptions.USER_ENDPOINT,
+        },
+        enabled: true,
       })
-      .expect(400));
+      .expect(403));
 
   it('Adds a push subscription to schedule', () =>
     request(app)
@@ -54,6 +63,7 @@ describe('Patch a schedule', () => {
         push: {
           endpoint: PushSubscriptions.USER_ENDPOINT,
         },
+        enabled: true,
       })
       .then(() =>
         request(app)
@@ -74,11 +84,16 @@ describe('Patch a schedule', () => {
           message: 'new message',
           cronExpression: '*/10 * * * * *',
         },
+        enabled: true,
+        push: {
+          endpoint: PushSubscriptions.USER_ENDPOINT,
+        },
       })
       .expect(200)
       .then((response) => {
         expect(response.body.message).to.equal('new message');
         expect(response.body.cronExpression).to.equal('*/10 * * * * *');
+        expect(response.body.enabled).to.be.true;
       }));
 
   it('Disables a schedule without a user', () =>

@@ -14,3 +14,4 @@ rules:
     - error
     - always
   '@typescript-eslint/prefer-optional-chain': 0
+  guard-for-in: 0
