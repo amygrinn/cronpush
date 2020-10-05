@@ -41,6 +41,7 @@ export default async (now: Date) =>
         })
         .catch((err) => {
           console.error(err);
+          console.log(notification);
           return pushSubscriptions.destroy(notification.endpoint);
         });
     })
