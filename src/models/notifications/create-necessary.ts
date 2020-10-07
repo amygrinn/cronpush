@@ -42,23 +42,27 @@ export default (now = new Date()) =>
       scheduleSubscriptionId: string;
     }[];
 
-    const notificationsToCreate: Notification[] = schedulesWithoutPendingNotifications.map(
-      (s) => {
-        const date = cronParser
-          .parseExpression(s.cronExpression, {
-            tz: s.timeZone,
-            currentDate: justBefore,
-          })
-          .next()
-          .toDate();
+    const notificationsToCreate: Notification[] = schedulesWithoutPendingNotifications.reduce(
+      (notifications, s) => {
+        if (s.cronExpression && s.timeZone) {
+          const date = cronParser
+            .parseExpression(s.cronExpression, {
+              tz: s.timeZone,
+              currentDate: justBefore,
+            })
+            .next()
+            .toDate();
 
-        return {
-          id: createId(),
-          date: dateToMySQL(date),
-          scheduleSubscriptionId: s.scheduleSubscriptionId,
-          sent: false,
-        };
-      }
+          notifications.push({
+            id: createId(),
+            date: dateToMySQL(date),
+            scheduleSubscriptionId: s.scheduleSubscriptionId,
+            sent: false,
+          });
+        }
+        return notifications;
+      },
+      [] as Notification[]
     );
 
     if (notificationsToCreate.length > 0) {
