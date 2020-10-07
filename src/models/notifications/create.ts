@@ -4,7 +4,7 @@ import Notification from './notification';
 export default async (notifications: Notification[]) => {
   if (notifications.length > 0) {
     // prettier-ignore
-    db.query(`
+    return db.query(`
       INSERT INTO notifications
         (id, date, scheduleSubscriptionId, sent)
       VALUES
