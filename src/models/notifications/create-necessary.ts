@@ -1,4 +1,5 @@
 import cronParser from 'cron-parser';
+import { pushSubscriptions } from '..';
 import dateToMySQL from '../../util';
 import * as db from '../db';
 import createId from '../util/create-id';
@@ -17,7 +18,8 @@ export default (now = new Date()) =>
         SELECT
           s.cronExpression,
           ps.timeZone,
-          ss.id AS scheduleSubscriptionId
+          ss.id AS scheduleSubscriptionId,
+          ps.endpoint
         FROM schedule_subscriptions ss
           LEFT JOIN schedules s
             ON s.id = ss.scheduleId
@@ -40,11 +42,12 @@ export default (now = new Date()) =>
       cronExpression: string;
       timeZone: string;
       scheduleSubscriptionId: string;
+      endpoint: string;
     }[];
 
     const notificationsToCreate: Notification[] = schedulesWithoutPendingNotifications.reduce(
       (notifications, s) => {
-        if (s.cronExpression && s.timeZone) {
+        try {
           const date = cronParser
             .parseExpression(s.cronExpression, {
               tz: s.timeZone,
@@ -59,6 +62,10 @@ export default (now = new Date()) =>
             scheduleSubscriptionId: s.scheduleSubscriptionId,
             sent: false,
           });
+        } catch (err) {
+          console.error(err);
+          console.log(s);
+          if (s.endpoint) pushSubscriptions.destroy(s.endpoint);
         }
         return notifications;
       },
