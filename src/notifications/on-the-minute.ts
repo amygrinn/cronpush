@@ -7,7 +7,7 @@ export default (fn: () => any): (() => void) => {
     nextMinute.setSeconds(60, 0);
     const delay = nextMinute.getTime() - new Date().getTime();
 
-    setTimeout(() => {
+    timeout = setTimeout(() => {
       fn();
       helper();
     }, delay);
