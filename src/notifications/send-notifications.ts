@@ -21,7 +21,7 @@ export default async (now: Date) =>
         body: notification.message,
         icon: notification.icon,
         badge: notification.icon,
-        tag: notification.id,
+        tag: notification.scheduleId,
         renotify: true,
         requireInteraction: true,
         timestamp: notification.date,

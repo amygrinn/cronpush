@@ -6,15 +6,17 @@ import Notification from './notification';
 
 export default async (
   now = new Date()
-): Promise<Array<Notification & Schedule & PushSubscription>> => {
+): Promise<
+  Array<Notification & Schedule & PushSubscription & { scheduleId: string }>
+> => {
   const exactMinute = new Date(now.valueOf());
   exactMinute.setSeconds(0, 0);
 
   const result = await db.query(
     `
       SELECT
-        n.date, n.sent, n.scheduleSubscriptionId,
-        s.id, s.cronExpression, s.title, s.icon, s.message, s.userId,
+        n.id, n.date, n.sent, n.scheduleSubscriptionId,
+        s.id AS scheduleId, s.cronExpression, s.title, s.icon, s.message, s.userId,
         ps.endpoint, ps.timeZone, ps.p256dh, ps.auth
       FROM notifications n
         INNER JOIN schedule_subscriptions ss
@@ -52,5 +54,6 @@ export default async (
       p256dh: n.p256dh as string,
       auth: n.auth as string,
     },
+    scheduleId: n.scheduleId as string,
   }));
 };
