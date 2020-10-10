@@ -21,9 +21,9 @@ export default (now = new Date()) =>
           ss.id AS scheduleSubscriptionId,
           ps.endpoint
         FROM schedule_subscriptions ss
-          LEFT JOIN schedules s
+          INNER JOIN schedules s
             ON s.id = ss.scheduleId
-          LEFT JOIN push_subscriptions ps
+          INNER JOIN push_subscriptions ps
             ON (
               ps.id = ss.pushSubscriptionId
               AND ps.enabled

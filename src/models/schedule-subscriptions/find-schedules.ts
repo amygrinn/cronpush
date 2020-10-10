@@ -12,19 +12,23 @@ export default async ({
     .query(
       `
         SELECT
-          s.id, s.cronExpression, s.title, s.icon, s.message, s.userId,
-          IFNULL(ss.enabled AND ps.enabled AND ps.endpoint = :endpoint, FALSE) AS enabled
+          s.id, s.cronExpression, s.title, s.icon, s.message, s.userId, enabled.enabled
         FROM schedules s
-          LEFT JOIN schedule_subscriptions ss
-            ON ss.scheduleId = s.id
-          LEFT JOIN push_subscriptions ps
-            ON (
-              ps.id = ss.pushSubscriptionId
-              OR ps.userId = :userId
-            )
+          LEFT JOIN (
+            SELECT
+              ss.scheduleId, IFNULL(ps.enabled AND ss.enabled, FALSE) AS enabled
+            FROM schedule_subscriptions ss
+              INNER JOIN push_subscriptions ps
+                ON (
+                  ps.id = ss.pushSubscriptionId
+                  AND ps.endpoint = :endpoint
+                )
+            ORDER BY enabled DESC
+          ) enabled
+            ON enabled.scheduleId = s.id
         WHERE
           s.userId = :userId
-          OR ps.endpoint = :endpoint
+          OR enabled.enabled IS NOT NULL
       `,
       {
         endpoint,
