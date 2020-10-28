@@ -18,14 +18,14 @@ describe('Destroy a push subscription', () => {
         db.useConnection(async (query) => {
           subscriptionIds.push(
             (
-              await query(
+              await query<{ id: string }>(
                 `SELECT id FROM push_subscriptions WHERE endpoint = "${PushSubscriptions.ENDPOINT}"`
               )
-            )[0].id as string
+            )[0].id
           );
           subscriptionIds.push(
             (
-              await query(
+              await query<{ id: string }>(
                 `SELECT id FROM push_subscriptions WHERE endpoint = "${PushSubscriptions.USER_ENDPOINT}"`
               )
             )[0].id as string

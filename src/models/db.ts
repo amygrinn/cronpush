@@ -41,35 +41,6 @@
  */
 import * as mysql from 'mysql';
 
-export const sql = (strings: TemplateStringsArray, ...args: any[]): string => {
-  let result = '';
-
-  strings.forEach((_, i) => {
-    result += `${strings[i]}\`${mysql.escape(args[i])}\``;
-  });
-
-  return result;
-};
-
-export type Query = (
-  sql: string,
-  args?: { [key: string]: string | number }
-) => Promise<Array<{ [key: string]: string | number }>>;
-
-const getQueryFnc: (conn: mysql.Pool | mysql.Connection) => Query = (conn) => (
-  sql,
-  args
-) =>
-  new Promise((resolve, reject) => {
-    conn.query(sql, args, (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
-
 const pool = mysql.createPool({
   database:
     process.env.NODE_ENV === 'test'
@@ -82,11 +53,41 @@ const pool = mysql.createPool({
   connectionLimit: 10,
 });
 
-export const query: Query = getQueryFnc(pool);
+pool.on('connection', (conn) => {
+  conn.config.queryFormat = (sql: string, values) => {
+    if (!values) {
+      return sql;
+    }
+    return sql.replace(/\:(\w+)/g, (txt, key) => {
+      if (values.hasOwnProperty(key)) {
+        return conn.escape(values[key]);
+      }
+      return txt;
+    });
+  };
+});
 
-export const useConnection: (
-  cb: (query: Query) => Promise<any>
-) => Promise<any> = (cb) =>
+const getQueryFnc: <R, A>(
+  conn: mysql.Pool | mysql.Connection
+) => (sql: string, args: A) => Promise<R[]> = (conn) => (sql, args) =>
+  new Promise((resolve, reject) => {
+    conn.query(sql, args, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+
+export const query: <R, A = { [key: string]: string | number }>(
+  sql: string,
+  args?: A
+) => Promise<R[]> = getQueryFnc(pool);
+
+export const useConnection: <T>(
+  cb: (q: typeof query) => Promise<T>
+) => Promise<T> = (cb) =>
   new Promise((resolve, reject) => {
     pool.getConnection(async (err, conn) => {
       if (err) {
@@ -105,17 +106,3 @@ export const useConnection: (
       }
     });
   });
-
-pool.on('connection', (conn) => {
-  conn.config.queryFormat = (sql: string, values) => {
-    if (!values) {
-      return sql;
-    }
-    return sql.replace(/\:(\w+)/g, (txt, key) => {
-      if (values.hasOwnProperty(key)) {
-        return conn.escape(values[key]);
-      }
-      return txt;
-    });
-  };
-});

@@ -8,7 +8,7 @@ export default () =>
       await query(`DROP TABLE IF EXISTS ${TABLE_NAME}`);
     }
 
-    return query(`
+    await query(`
       CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
         id VARCHAR(255) NOT NULL,
         sent TINYINT(1) DEFAULT 0,
